@@ -1,0 +1,528 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		322AD09E1E6309E100959BE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322AD09D1E6309E100959BE3 /* AppDelegate.swift */; };
+		322AD0A01E6309E100959BE3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322AD09F1E6309E100959BE3 /* ViewController.swift */; };
+		322AD0A31E6309E100959BE3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 322AD0A11E6309E100959BE3 /* Main.storyboard */; };
+		322AD0A51E6309E100959BE3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 322AD0A41E6309E100959BE3 /* Assets.xcassets */; };
+		322AD0A81E6309E100959BE3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 322AD0A61E6309E100959BE3 /* LaunchScreen.storyboard */; };
+		322AD0B31E6309E200959BE3 /* ebikeStoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322AD0B21E6309E200959BE3 /* ebikeStoryTests.swift */; };
+		322AD0BE1E6309E200959BE3 /* ebikeStoryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322AD0BD1E6309E200959BE3 /* ebikeStoryUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		322AD0AF1E6309E200959BE3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 322AD0921E6309E100959BE3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 322AD0991E6309E100959BE3;
+			remoteInfo = ebikeStory;
+		};
+		322AD0BA1E6309E200959BE3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 322AD0921E6309E100959BE3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 322AD0991E6309E100959BE3;
+			remoteInfo = ebikeStory;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		322AD09A1E6309E100959BE3 /* ebikeStory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ebikeStory.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		322AD09D1E6309E100959BE3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		322AD09F1E6309E100959BE3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		322AD0A21E6309E100959BE3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		322AD0A41E6309E100959BE3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		322AD0A71E6309E100959BE3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		322AD0A91E6309E100959BE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		322AD0AE1E6309E200959BE3 /* ebikeStoryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ebikeStoryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		322AD0B21E6309E200959BE3 /* ebikeStoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ebikeStoryTests.swift; sourceTree = "<group>"; };
+		322AD0B41E6309E200959BE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		322AD0B91E6309E200959BE3 /* ebikeStoryUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ebikeStoryUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		322AD0BD1E6309E200959BE3 /* ebikeStoryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ebikeStoryUITests.swift; sourceTree = "<group>"; };
+		322AD0BF1E6309E200959BE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		322AD0971E6309E100959BE3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		322AD0AB1E6309E200959BE3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		322AD0B61E6309E200959BE3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		322AD0911E6309E100959BE3 = {
+			isa = PBXGroup;
+			children = (
+				322AD09C1E6309E100959BE3 /* ebikeStory */,
+				322AD0B11E6309E200959BE3 /* ebikeStoryTests */,
+				322AD0BC1E6309E200959BE3 /* ebikeStoryUITests */,
+				322AD09B1E6309E100959BE3 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		322AD09B1E6309E100959BE3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				322AD09A1E6309E100959BE3 /* ebikeStory.app */,
+				322AD0AE1E6309E200959BE3 /* ebikeStoryTests.xctest */,
+				322AD0B91E6309E200959BE3 /* ebikeStoryUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		322AD09C1E6309E100959BE3 /* ebikeStory */ = {
+			isa = PBXGroup;
+			children = (
+				322AD09D1E6309E100959BE3 /* AppDelegate.swift */,
+				322AD09F1E6309E100959BE3 /* ViewController.swift */,
+				322AD0A11E6309E100959BE3 /* Main.storyboard */,
+				322AD0A41E6309E100959BE3 /* Assets.xcassets */,
+				322AD0A61E6309E100959BE3 /* LaunchScreen.storyboard */,
+				322AD0A91E6309E100959BE3 /* Info.plist */,
+			);
+			path = ebikeStory;
+			sourceTree = "<group>";
+		};
+		322AD0B11E6309E200959BE3 /* ebikeStoryTests */ = {
+			isa = PBXGroup;
+			children = (
+				322AD0B21E6309E200959BE3 /* ebikeStoryTests.swift */,
+				322AD0B41E6309E200959BE3 /* Info.plist */,
+			);
+			path = ebikeStoryTests;
+			sourceTree = "<group>";
+		};
+		322AD0BC1E6309E200959BE3 /* ebikeStoryUITests */ = {
+			isa = PBXGroup;
+			children = (
+				322AD0BD1E6309E200959BE3 /* ebikeStoryUITests.swift */,
+				322AD0BF1E6309E200959BE3 /* Info.plist */,
+			);
+			path = ebikeStoryUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		322AD0991E6309E100959BE3 /* ebikeStory */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 322AD0C21E6309E200959BE3 /* Build configuration list for PBXNativeTarget "ebikeStory" */;
+			buildPhases = (
+				322AD0961E6309E100959BE3 /* Sources */,
+				322AD0971E6309E100959BE3 /* Frameworks */,
+				322AD0981E6309E100959BE3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ebikeStory;
+			productName = ebikeStory;
+			productReference = 322AD09A1E6309E100959BE3 /* ebikeStory.app */;
+			productType = "com.apple.product-type.application";
+		};
+		322AD0AD1E6309E200959BE3 /* ebikeStoryTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 322AD0C51E6309E200959BE3 /* Build configuration list for PBXNativeTarget "ebikeStoryTests" */;
+			buildPhases = (
+				322AD0AA1E6309E200959BE3 /* Sources */,
+				322AD0AB1E6309E200959BE3 /* Frameworks */,
+				322AD0AC1E6309E200959BE3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				322AD0B01E6309E200959BE3 /* PBXTargetDependency */,
+			);
+			name = ebikeStoryTests;
+			productName = ebikeStoryTests;
+			productReference = 322AD0AE1E6309E200959BE3 /* ebikeStoryTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		322AD0B81E6309E200959BE3 /* ebikeStoryUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 322AD0C81E6309E200959BE3 /* Build configuration list for PBXNativeTarget "ebikeStoryUITests" */;
+			buildPhases = (
+				322AD0B51E6309E200959BE3 /* Sources */,
+				322AD0B61E6309E200959BE3 /* Frameworks */,
+				322AD0B71E6309E200959BE3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				322AD0BB1E6309E200959BE3 /* PBXTargetDependency */,
+			);
+			name = ebikeStoryUITests;
+			productName = ebikeStoryUITests;
+			productReference = 322AD0B91E6309E200959BE3 /* ebikeStoryUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		322AD0921E6309E100959BE3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0820;
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = sangclee;
+				TargetAttributes = {
+					322AD0991E6309E100959BE3 = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+					};
+					322AD0AD1E6309E200959BE3 = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 322AD0991E6309E100959BE3;
+					};
+					322AD0B81E6309E200959BE3 = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 322AD0991E6309E100959BE3;
+					};
+				};
+			};
+			buildConfigurationList = 322AD0951E6309E100959BE3 /* Build configuration list for PBXProject "ebikeStory" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 322AD0911E6309E100959BE3;
+			productRefGroup = 322AD09B1E6309E100959BE3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				322AD0991E6309E100959BE3 /* ebikeStory */,
+				322AD0AD1E6309E200959BE3 /* ebikeStoryTests */,
+				322AD0B81E6309E200959BE3 /* ebikeStoryUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		322AD0981E6309E100959BE3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				322AD0A81E6309E100959BE3 /* LaunchScreen.storyboard in Resources */,
+				322AD0A51E6309E100959BE3 /* Assets.xcassets in Resources */,
+				322AD0A31E6309E100959BE3 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		322AD0AC1E6309E200959BE3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		322AD0B71E6309E200959BE3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		322AD0961E6309E100959BE3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				322AD0A01E6309E100959BE3 /* ViewController.swift in Sources */,
+				322AD09E1E6309E100959BE3 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		322AD0AA1E6309E200959BE3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				322AD0B31E6309E200959BE3 /* ebikeStoryTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		322AD0B51E6309E200959BE3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				322AD0BE1E6309E200959BE3 /* ebikeStoryUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		322AD0B01E6309E200959BE3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 322AD0991E6309E100959BE3 /* ebikeStory */;
+			targetProxy = 322AD0AF1E6309E200959BE3 /* PBXContainerItemProxy */;
+		};
+		322AD0BB1E6309E200959BE3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 322AD0991E6309E100959BE3 /* ebikeStory */;
+			targetProxy = 322AD0BA1E6309E200959BE3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		322AD0A11E6309E100959BE3 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				322AD0A21E6309E100959BE3 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		322AD0A61E6309E100959BE3 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				322AD0A71E6309E100959BE3 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		322AD0C01E6309E200959BE3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		322AD0C11E6309E200959BE3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		322AD0C31E6309E200959BE3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = ebikeStory/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = net.sangclee.ebikeStory;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		322AD0C41E6309E200959BE3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = ebikeStory/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = net.sangclee.ebikeStory;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		322AD0C61E6309E200959BE3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = ebikeStoryTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = net.sangclee.ebikeStoryTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ebikeStory.app/ebikeStory";
+			};
+			name = Debug;
+		};
+		322AD0C71E6309E200959BE3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = ebikeStoryTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = net.sangclee.ebikeStoryTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ebikeStory.app/ebikeStory";
+			};
+			name = Release;
+		};
+		322AD0C91E6309E200959BE3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				INFOPLIST_FILE = ebikeStoryUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = net.sangclee.ebikeStoryUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = ebikeStory;
+			};
+			name = Debug;
+		};
+		322AD0CA1E6309E200959BE3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				INFOPLIST_FILE = ebikeStoryUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = net.sangclee.ebikeStoryUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = ebikeStory;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		322AD0951E6309E100959BE3 /* Build configuration list for PBXProject "ebikeStory" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				322AD0C01E6309E200959BE3 /* Debug */,
+				322AD0C11E6309E200959BE3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		322AD0C21E6309E200959BE3 /* Build configuration list for PBXNativeTarget "ebikeStory" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				322AD0C31E6309E200959BE3 /* Debug */,
+				322AD0C41E6309E200959BE3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		322AD0C51E6309E200959BE3 /* Build configuration list for PBXNativeTarget "ebikeStoryTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				322AD0C61E6309E200959BE3 /* Debug */,
+				322AD0C71E6309E200959BE3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		322AD0C81E6309E200959BE3 /* Build configuration list for PBXNativeTarget "ebikeStoryUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				322AD0C91E6309E200959BE3 /* Debug */,
+				322AD0CA1E6309E200959BE3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 322AD0921E6309E100959BE3 /* Project object */;
+}
