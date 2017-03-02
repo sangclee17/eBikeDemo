@@ -8,12 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		322AD09E1E6309E100959BE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322AD09D1E6309E100959BE3 /* AppDelegate.swift */; };
-		322AD0A01E6309E100959BE3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322AD09F1E6309E100959BE3 /* ViewController.swift */; };
+		322AD0A01E6309E100959BE3 /* PeripheralsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322AD09F1E6309E100959BE3 /* PeripheralsTableViewController.swift */; };
 		322AD0A31E6309E100959BE3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 322AD0A11E6309E100959BE3 /* Main.storyboard */; };
 		322AD0A51E6309E100959BE3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 322AD0A41E6309E100959BE3 /* Assets.xcassets */; };
 		322AD0A81E6309E100959BE3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 322AD0A61E6309E100959BE3 /* LaunchScreen.storyboard */; };
 		322AD0B31E6309E200959BE3 /* ebikeStoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322AD0B21E6309E200959BE3 /* ebikeStoryTests.swift */; };
 		322AD0BE1E6309E200959BE3 /* ebikeStoryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322AD0BD1E6309E200959BE3 /* ebikeStoryUITests.swift */; };
+		322AD0CC1E630A9100959BE3 /* ConnectedPeripheralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322AD0CB1E630A9100959BE3 /* ConnectedPeripheralViewController.swift */; };
+		322AD0CE1E630F3300959BE3 /* mapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322AD0CD1E630F3300959BE3 /* mapViewController.swift */; };
+		322AD0D21E6319F100959BE3 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322AD0D11E6319F100959BE3 /* TableViewController.swift */; };
+		32361E7A1E6851D8004286F0 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32361E791E6851D8004286F0 /* Config.swift */; };
+		32361E7C1E68548C004286F0 /* UartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32361E7B1E68548C004286F0 /* UartData.swift */; };
+		32485ACC1E66B66A000F9DB3 /* UartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32485ACB1E66B66A000F9DB3 /* UartManager.swift */; };
+		32485ACE1E66C2AC000F9DB3 /* UartDataChunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32485ACD1E66C2AC000F9DB3 /* UartDataChunk.swift */; };
+		32FA83211E6542BE00ED2B30 /* PeripheralTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FA83201E6542BE00ED2B30 /* PeripheralTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +44,7 @@
 /* Begin PBXFileReference section */
 		322AD09A1E6309E100959BE3 /* ebikeStory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ebikeStory.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		322AD09D1E6309E100959BE3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		322AD09F1E6309E100959BE3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		322AD09F1E6309E100959BE3 /* PeripheralsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralsTableViewController.swift; sourceTree = "<group>"; };
 		322AD0A21E6309E100959BE3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		322AD0A41E6309E100959BE3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		322AD0A71E6309E100959BE3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -47,6 +55,14 @@
 		322AD0B91E6309E200959BE3 /* ebikeStoryUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ebikeStoryUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		322AD0BD1E6309E200959BE3 /* ebikeStoryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ebikeStoryUITests.swift; sourceTree = "<group>"; };
 		322AD0BF1E6309E200959BE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		322AD0CB1E630A9100959BE3 /* ConnectedPeripheralViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectedPeripheralViewController.swift; sourceTree = "<group>"; };
+		322AD0CD1E630F3300959BE3 /* mapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mapViewController.swift; sourceTree = "<group>"; };
+		322AD0D11E6319F100959BE3 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
+		32361E791E6851D8004286F0 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		32361E7B1E68548C004286F0 /* UartData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UartData.swift; sourceTree = "<group>"; };
+		32485ACB1E66B66A000F9DB3 /* UartManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UartManager.swift; sourceTree = "<group>"; };
+		32485ACD1E66C2AC000F9DB3 /* UartDataChunk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UartDataChunk.swift; sourceTree = "<group>"; };
+		32FA83201E6542BE00ED2B30 /* PeripheralTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,8 +114,16 @@
 			isa = PBXGroup;
 			children = (
 				322AD09D1E6309E100959BE3 /* AppDelegate.swift */,
-				322AD09F1E6309E100959BE3 /* ViewController.swift */,
+				322AD0CD1E630F3300959BE3 /* mapViewController.swift */,
+				32FA83201E6542BE00ED2B30 /* PeripheralTableViewCell.swift */,
+				32485ACB1E66B66A000F9DB3 /* UartManager.swift */,
+				32361E7B1E68548C004286F0 /* UartData.swift */,
+				32361E791E6851D8004286F0 /* Config.swift */,
+				322AD0CB1E630A9100959BE3 /* ConnectedPeripheralViewController.swift */,
+				32485ACD1E66C2AC000F9DB3 /* UartDataChunk.swift */,
+				322AD09F1E6309E100959BE3 /* PeripheralsTableViewController.swift */,
 				322AD0A11E6309E100959BE3 /* Main.storyboard */,
+				322AD0D11E6319F100959BE3 /* TableViewController.swift */,
 				322AD0A41E6309E100959BE3 /* Assets.xcassets */,
 				322AD0A61E6309E100959BE3 /* LaunchScreen.storyboard */,
 				322AD0A91E6309E100959BE3 /* Info.plist */,
@@ -193,6 +217,7 @@
 				TargetAttributes = {
 					322AD0991E6309E100959BE3 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = DFE7K5PK79;
 						ProvisioningStyle = Automatic;
 					};
 					322AD0AD1E6309E200959BE3 = {
@@ -259,8 +284,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				322AD0A01E6309E100959BE3 /* ViewController.swift in Sources */,
+				322AD0CC1E630A9100959BE3 /* ConnectedPeripheralViewController.swift in Sources */,
+				32361E7C1E68548C004286F0 /* UartData.swift in Sources */,
+				322AD0A01E6309E100959BE3 /* PeripheralsTableViewController.swift in Sources */,
+				32361E7A1E6851D8004286F0 /* Config.swift in Sources */,
+				32485ACC1E66B66A000F9DB3 /* UartManager.swift in Sources */,
 				322AD09E1E6309E100959BE3 /* AppDelegate.swift in Sources */,
+				322AD0D21E6319F100959BE3 /* TableViewController.swift in Sources */,
+				32485ACE1E66C2AC000F9DB3 /* UartDataChunk.swift in Sources */,
+				322AD0CE1E630F3300959BE3 /* mapViewController.swift in Sources */,
+				32FA83211E6542BE00ED2B30 /* PeripheralTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -412,6 +445,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = DFE7K5PK79;
 				INFOPLIST_FILE = ebikeStory/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.sangclee.ebikeStory;
@@ -424,6 +459,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = DFE7K5PK79;
 				INFOPLIST_FILE = ebikeStory/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.sangclee.ebikeStory;
@@ -505,6 +542,7 @@
 				322AD0C41E6309E200959BE3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		322AD0C51E6309E200959BE3 /* Build configuration list for PBXNativeTarget "ebikeStoryTests" */ = {
 			isa = XCConfigurationList;
@@ -513,6 +551,7 @@
 				322AD0C71E6309E200959BE3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		322AD0C81E6309E200959BE3 /* Build configuration list for PBXNativeTarget "ebikeStoryUITests" */ = {
 			isa = XCConfigurationList;
@@ -521,6 +560,7 @@
 				322AD0CA1E6309E200959BE3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
