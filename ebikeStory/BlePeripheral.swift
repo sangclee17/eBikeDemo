@@ -14,7 +14,8 @@ class BlePeripheral {
     var peripheral : CBPeripheral!
     var advertisementData: [String: AnyObject]
     var RSSI: Int
-    
+    var UUID: String
+    var connectable: String?
     var name: String? {
         get {
             return peripheral.name
@@ -25,9 +26,13 @@ class BlePeripheral {
         self.peripheral = peripheral
         self.advertisementData = advertisementData
         self.RSSI = RSSI
+        self.UUID = peripheral.identifier.uuidString
+        if let isConnectable = advertisementData[CBAdvertisementDataIsConnectable] as? NSNumber {
+            connectable = (isConnectable.boolValue) ? "Yes" : "No"
+        }
     }
     
-    fileprivate static let kUartServiceUUID = "6e400001-b5a3-f393-e0a9-e50e24dcca9e"       // UART service UUID
+    fileprivate static let kUartServiceUUID = "6e400001-b5a3-f393-e0a9-e50e24dcca9e"    // UART service UUID
     
     func isUartAdvertised() -> Bool {
         
