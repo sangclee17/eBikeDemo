@@ -15,9 +15,9 @@ class PeripheralTableViewCell: UITableViewCell {
     @IBOutlet weak var UUIDLabel: UILabel!
     @IBOutlet weak var RSSILabel: UILabel!
     @IBOutlet weak var connectableLabel: UILabel!
-    @IBOutlet weak var otherLabel: UILabel!
     
-    func setupWithPeripheral(peripheral: Peripheral) {
+    func setupWithPeripheral(peripheral: BlePeripheral) {
+        
         nameLabel.text = peripheral.name
         UUIDLabel.text = peripheral.UUID
         RSSILabel.text = "RSSI: \(peripheral.RSSI)"
