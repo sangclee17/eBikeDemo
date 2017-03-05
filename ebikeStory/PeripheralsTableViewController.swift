@@ -6,161 +6,129 @@
 //  Copyright © 2017 sangclee. All rights reserved.
 //
 import UIKit
-import CoreBluetooth
 
-struct Peripheral {
-    var peripheral: CBPeripheral
-    var name: String?
-    var UUID: String
-    var RSSI: String
-    var connectable = "No"
-    var uartData = UartData()
+class PeripheralsTableViewController: UITableViewController {
     
-    init(peripheral: CBPeripheral, RSSI: String, advertisementDictionary: NSDictionary) {
-        self.peripheral = peripheral
-        name = peripheral.name ?? "No name."
-        UUID = peripheral.identifier.uuidString
-        self.RSSI = RSSI
-        if let isConnectable = advertisementDictionary[CBAdvertisementDataIsConnectable] as? NSNumber {
-            connectable = (isConnectable.boolValue) ? "Yes" : "No"
-        }
-    }
-}
-
-class PeripheralsTableViewController: UITableViewController, CBCentralManagerDelegate {
-    
-    var centralManager: CBCentralManager!
-    var isBluetoothEnabled = false
-    var visiblePeripheralUUIDs = NSMutableOrderedSet()
-    var visiblePeripherals = [String: Peripheral]()
-    var scanTimer: Timer?
-    var connectionAttemptTimer: Timer?
-    var connectedPeripheral: CBPeripheral?
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        
-        centralManager = CBCentralManager(delegate: self, queue: nil, options: [CBCentralManagerOptionShowPowerAlertKey: true])
-    }
-    
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        
-        centralManager = CBCentralManager(delegate: self, queue: nil, options: [CBCentralManagerOptionShowPowerAlertKey: true])
-    }
+    var visiblePeripherals = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Setup table refresh
+        self.refreshControl?.addTarget(self, action: #selector(onTableRefresh(sender:)), for: .valueChanged)
+        
+        //Setup table view
         tableView.delegate = self
         tableView.dataSource = self
         tableView.estimatedRowHeight = 134
         tableView.rowHeight = UITableViewAutomaticDimension
         
-        self.refreshControl?.addTarget(self, action: #selector(self.startScanning), for: .valueChanged)
-    }
-   
-    override func viewDidAppear(_ animated: Bool) {
-        if isBluetoothEnabled {
-            if let peripheral = connectedPeripheral {
-                centralManager.cancelPeripheralConnection(peripheral)
-            }
-        }
+        //Start Scanning
+        BleManager.sharedInstance.startScan()
     }
     
-    func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        var printString: String
-        switch central.state {
-        case .poweredOff:
-            printString = "Bluetooth hardware powered off."
-            isBluetoothEnabled = false
-        case .poweredOn:
-            printString = "Bluetooth hardware powered on."
-            isBluetoothEnabled = true
-            startScanning()
-        case .resetting:
-            printString = "Bluetooth hardware is resetting."
-            isBluetoothEnabled = false
-        case .unauthorized:
-            printString = "Bluetooth hardware is unauthorized."
-            isBluetoothEnabled = false
-        case .unsupported:
-            printString = "Bluetooth hardware is unsupported."
-            isBluetoothEnabled = false
-        case .unknown:
-            printString = "Bluetooth hardware state is unknown."
-            isBluetoothEnabled = false
-        }
-        print("State updated to: \(printString)")
-    }
-    
-    func startScanning() {
-        print("Started scanning")
-        visiblePeripheralUUIDs.removeAllObjects()
-        visiblePeripherals.removeAll(keepingCapacity: true)
-        tableView.reloadData()
-        centralManager.scanForPeripherals(withServices:nil, options: nil)
-        scanTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(self.stopScanning), userInfo: nil, repeats: false)
-    }
-    
-    func stopScanning() {
-        print("Stopped scanning")
-        print("Found\(visiblePeripherals.count) peripherals.")
-        centralManager.stopScan()
-        refreshControl?.endRefreshing()
-        scanTimer?.invalidate()
-    }
-    
-    func timeoutPeripheralConnectionAttempt() {
-        print("Peripheral connection attempt timed out.")
-        if let connectedPeripheral = connectedPeripheral {
-            centralManager.cancelPeripheralConnection(connectedPeripheral)
-        }
-        connectionAttemptTimer?.invalidate()
-    }
-    
-    func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-        print("Peripheral found with name: \(peripheral.name)\nUUID: \(peripheral.identifier.uuidString)\nRSSI: \(RSSI)\nAdvertisement Data: \(advertisementData)")
-        visiblePeripheralUUIDs.add(peripheral.identifier.uuidString)
-        visiblePeripherals[peripheral.identifier.uuidString] = Peripheral(peripheral: peripheral, RSSI: RSSI.stringValue, advertisementDictionary: advertisementData as NSDictionary)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        didUpdateBleState(notification: nil)
+        
+        // Subscribe to Ble Notifications
+        NotificationCenter.default.addObserver(self, selector: #selector(didDiscoverPeripheral), name: NSNotification.Name(rawValue: BleManager.BleNotifications.DidDiscoverPeripheral.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(willConnectToPeripheral), name: NSNotification.Name(rawValue: BleManager.BleNotifications.WillConnectToPeripheral.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didConnectToPeripheral), name: NSNotification.Name(rawValue: BleManager.BleNotifications.DidConnectToPeripheral.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didUpdateBleState), name: NSNotification.Name(rawValue: BleManager.BleNotifications.DidUpdateBleState.rawValue), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didDisconnectFromPeripheral), name: NSNotification.Name(rawValue: BleManager.BleNotifications.DidDisconnectFromPeripheral.rawValue), object: nil)
+        
         tableView.reloadData()
     }
-
-    func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-        print("Peripheral connected: \(peripheral.name ?? peripheral.identifier.uuidString)")
-        connectionAttemptTimer?.invalidate()
-        let ConnectedPeripheralViewController = storyboard?.instantiateViewController(withIdentifier: "ConnectedPeripheralViewController") as! ConnectedPeripheralViewController
-        ConnectedPeripheralViewController.peripheral = peripheral
-        navigationController?.pushViewController(ConnectedPeripheralViewController, animated: true)
-    }
     
-    func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
-        if peripheral != connectedPeripheral {
-            print("Disconnected peripheral was not the currently connected peripheral.")
-        }
-        else {
-            connectedPeripheral = nil
-        }
-        if let error = error {
-            print("Failed to disconnect from peripheral with error: \(error)")
-        }
-        else {
-            print("Successfully disconnected from peripheral: \(peripheral.name ?? peripheral.identifier.uuidString)")
-        }
-        if let selectedIndexPath = tableView.indexPathForSelectedRow {
-            tableView.deselectRow(at: selectedIndexPath, animated: true)
-        }
-    }
-    
-    func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
-        print("Failed to connect peripheral: \(peripheral.name ?? peripheral.identifier.uuidString)\nBecause of error: \(error)")
-        connectedPeripheral = nil
-        connectionAttemptTimer?.invalidate()
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: BleManager.BleNotifications.DidDiscoverPeripheral.rawValue), object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: BleManager.BleNotifications.WillConnectToPeripheral.rawValue), object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: BleManager.BleNotifications.DidDisconnectFromPeripheral.rawValue), object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: BleManager.BleNotifications.DidConnectToPeripheral.rawValue), object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: BleManager.BleNotifications.DidUpdateBleState.rawValue), object: nil)
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    }
+    
+    func onTableRefresh(sender: AnyObject) {
+        
+        visiblePeripherals.removeAll(keepingCapacity: true)
+        tableView.reloadData()
+        BleManager.sharedInstance.refreshPeripherals()
+        refreshControl?.endRefreshing()
+    }
+    
+    func didDiscoverPeripheral(notification: Notification) {
+        guard let userInfo = notification.userInfo, let identifierString = userInfo["uuid"] as? String else {
+            return
+        }
+        visiblePeripherals.append(identifierString)
+        tableView.reloadData()
+    }
+    
+    func willConnectToPeripheral(notification: Notification) {
+        let alert = UIAlertController(title: "Notification", message: "Connecting...", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func didConnectToPeripheral(notification: Notification) {
+        let alert = UIAlertController(title: "Notification", message: "Connected", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+        
+        let ConnectedPeripheralViewController = storyboard?.instantiateViewController(withIdentifier: "ConnectedPeripheralViewController") as! ConnectedPeripheralViewController
+        ConnectedPeripheralViewController.selectedPeripheral = BleManager.sharedInstance.blePeripheralConnected
+        navigationController?.pushViewController(ConnectedPeripheralViewController, animated: true)
+    }
+    
+    func didDisconnectFromPeripheral(notification: Notification) {
+        guard let userInfo = notification.userInfo, let identifierString = userInfo["uuid"] as? String else {
+            return
+        }
+        let bleManager = BleManager.sharedInstance
+        let blePeripheralsFound = bleManager.blePeripheralsFound
+        var peripheralName: String? = " "
+        if let blePeripheralFound = blePeripheralsFound[identifierString] {
+            peripheralName = blePeripheralFound.name ?? "a peripheral"
+        }
+        
+        if let selectedIndexPath = tableView.indexPathForSelectedRow {
+            tableView.deselectRow(at: selectedIndexPath, animated: true)
+        }
+        
+        let alert = UIAlertController(title: "Notification", message: "disconnect from \(peripheralName)", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+        tableView.reloadData()
+    }
+    
+    func didUpdateBleState(notification: Notification?) {
+        guard let state = BleManager.sharedInstance.centralManager?.state else {
+            return
+        }
+        
+        // Check if there is any error
+        var errorMessage: String?
+        switch state {
+        case .unsupported:
+            errorMessage = "This device doesn't support Bluetooth Low Energy"
+        case .unauthorized:
+            errorMessage = "This app is not authorized to use the Bluetooth Low Energy"
+        case .poweredOff:
+            errorMessage = "Bluetooth is currently powered off"
+        default:
+            errorMessage = nil
+        }
+        if let errorMessage = errorMessage {
+            let alert = UIAlertController(title: "Notification", message: errorMessage, preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -169,27 +137,28 @@ class PeripheralsTableViewController: UITableViewController, CBCentralManagerDel
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PeripheralCell", for: indexPath) as! PeripheralTableViewCell
-        if let visibleUUID = visiblePeripheralUUIDs[indexPath.row] as? String {
-            if let visiblePeripheral = visiblePeripherals[visibleUUID] {
-                if visiblePeripheral.connectable == "No" {
-                    cell.accessoryType = .none
-                }
-                cell.setupWithPeripheral(peripheral: visiblePeripheral)
+        let bleManager = BleManager.sharedInstance
+        let blePeripheralsFound = bleManager.blePeripherals()
+        
+        if let peripheralFound = blePeripheralsFound[visiblePeripherals[indexPath.row]] {
+            if peripheralFound.connectable == "No" {
+                cell.accessoryType = .none
             }
+            cell.setupWithPeripheral(peripheral: peripheralFound)
         }
         return cell
     }
-  
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let selectedUUID = visiblePeripheralUUIDs[indexPath.row] as? String {
-            if let selectedPeripheral = visiblePeripherals[selectedUUID] {
-                if selectedPeripheral.connectable == "Yes" {
-                    connectedPeripheral = selectedPeripheral.peripheral
-                    connectionAttemptTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.timeoutPeripheralConnectionAttempt), userInfo: nil, repeats: false)
-                    centralManager.connect(connectedPeripheral!, options: nil)
-                }
+        let bleManager = BleManager.sharedInstance
+        let blePeripheralsFound = bleManager.blePeripherals()
+        
+        if let selectedPeripheral = blePeripheralsFound[visiblePeripherals[indexPath.row]] {
+            if selectedPeripheral.connectable == "Yes" {
+                bleManager.blePeripheralConnected = selectedPeripheral
+                bleManager.connect(blePeripheral: bleManager.blePeripheralConnected!)
+                bleManager.connectionAttemptTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(bleManager.timeoutPeripheralConnectionAttempt), userInfo: nil, repeats: false)
             }
         }
     }
-    
 }
