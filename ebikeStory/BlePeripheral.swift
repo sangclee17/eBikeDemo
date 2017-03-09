@@ -18,7 +18,7 @@ class BlePeripheral {
     var connectable: String?
     var name: String? {
         get {
-            return peripheral.name
+            return peripheral.name ?? "No Name."
         }
     }
     
@@ -32,7 +32,7 @@ class BlePeripheral {
         }
     }
     
-    fileprivate static let kUartServiceUUID = "6e400001-b5a3-f393-e0a9-e50e24dcca9e"    // UART service UUID
+    private static let kUartServiceUUID = "6e400001-b5a3-f393-e0a9-e50e24dcca9e"    // UART service UUID
     
     func isUartAdvertised() -> Bool {
         
@@ -47,10 +47,25 @@ class BlePeripheral {
     func hasUart() -> Bool {
         var hasUart = false
         if let services = peripheral.services {
+            var i = 0
+            while (!hasUart && i < services.count) {
+                let service = services[i]
+                if (service.uuid.uuidString .caseInsensitiveCompare(BlePeripheral.kUartServiceUUID) == .orderedSame) {
+                    hasUart = true
+                }
+                i += 1
+            }
+        }
+        return hasUart
+    }
+    /*
+    func hasUart() -> Bool {
+        var hasUart = false
+        if let services = peripheral.services {
             hasUart = services.contains(where: { (service : CBService) -> Bool in
                 service.uuid.isEqual(CBUUID(string: BlePeripheral.kUartServiceUUID))
             })
         }
         return hasUart
-    }
+    }*/
 }

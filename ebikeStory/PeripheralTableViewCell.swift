@@ -12,15 +12,13 @@ import CoreBluetooth
 class PeripheralTableViewCell: UITableViewCell {
 
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var UUIDLabel: UILabel!
     @IBOutlet weak var RSSILabel: UILabel!
     @IBOutlet weak var connectableLabel: UILabel!
     
     func setupWithPeripheral(peripheral: BlePeripheral) {
         
         nameLabel.text = peripheral.name
-        UUIDLabel.text = peripheral.UUID
         RSSILabel.text = "RSSI: \(peripheral.RSSI)"
-        connectableLabel.text = "Connectable: \(peripheral.connectable)"
+        connectableLabel.text = "Connectable: \(peripheral.connectable!)"
     }
 }

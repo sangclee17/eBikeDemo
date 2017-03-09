@@ -31,7 +31,6 @@ class BleManager : NSObject, CBCentralManagerDelegate {
     var blePeripheralsFound = [String : BlePeripheral]()
     var blePeripheralConnected: BlePeripheral?
     var scanTimer: Timer?
-    var connectionAttemptTimer: Timer?
     
     override init() {
         super.init()
@@ -103,14 +102,14 @@ class BleManager : NSObject, CBCentralManagerDelegate {
         }
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: BleNotifications.DidUpdateBleState.rawValue), object: nil)
     }
-    
+    /*
     func timeoutPeripheralConnectionAttempt() {
         print("Peripheral connection attempt timed out.")
         if let connectedPeripheral = blePeripheralConnected {
             disconnect(blePeripheral: connectedPeripheral)
         }
         connectionAttemptTimer?.invalidate()
-    }
+    }*/
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         let identifierString = peripheral.identifier.uuidString
@@ -140,7 +139,7 @@ class BleManager : NSObject, CBCentralManagerDelegate {
         print("didConnectPeripheral: \(peripheral.name != nil ? peripheral.name! : "")")
         
         let identifier = peripheral.identifier.uuidString
-        blePeripheralConnected = blePeripheralsFound[identifier]
+        self.blePeripheralConnected = self.blePeripheralsFound[identifier]
         
         NotificationCenter.default.post(name: Notification.Name(rawValue: BleNotifications.DidConnectToPeripheral.rawValue), object: nil, userInfo: ["uuid" : identifier])
     }
@@ -150,7 +149,7 @@ class BleManager : NSObject, CBCentralManagerDelegate {
         
         peripheral.delegate = nil
         if peripheral.identifier == blePeripheralConnected?.peripheral.identifier {
-            self.blePeripheralConnected = nil
+            blePeripheralConnected = nil
         }
         
         NotificationCenter.default.post(name: Notification.Name(rawValue: BleNotifications.DidDisconnectFromPeripheral.rawValue), object: nil,  userInfo: ["uuid" : peripheral.identifier.uuidString])
@@ -162,7 +161,7 @@ class BleManager : NSObject, CBCentralManagerDelegate {
         synchronize(lock: blePeripheralsFound as AnyObject) { [unowned self] in
             result = self.blePeripheralsFound
         }
-        print(result!)
+        //print(result!)
         return result!
     }
 }

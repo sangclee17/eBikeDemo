@@ -16,64 +16,35 @@ class ConnectedPeripheralViewController: UIViewController, CBPeripheralDelegate,
     @IBOutlet weak var UUIDLabel: UILabel!
     @IBOutlet weak var RSSILabel: UILabel!
     
-    @IBOutlet weak var tableView: UITableView!
+    @IBAction func startButton(_ sender: Any) {
+        
+    }
     
-    private let UartServiceUUID = "6e400001-b5a3-f393-e0a9-e50e24dcca9e"
+    @IBOutlet weak var baseTableView: UITableView!
     
-    var peripheral: CBPeripheral!
-    private var isUartPeripheral:Bool = false
-    fileprivate var uartService: CBService?
+    var selectedPeripheral: BlePeripheral!
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
-        tableView.dataSource = self
+        baseTableView.dataSource = self
+        //startButton.isHidden = true
+        
+        self.navigationItem.title = "Info"
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        print("Peripheral: \(peripheral)")
+        //print("Peripheral: \(selectedPeripheral)")
         
-        nameLabel.text = peripheral.name ?? "No Name"
+        nameLabel.text = selectedPeripheral.name ?? "No Name"
         UUIDLabel.numberOfLines = 0;
-        UUIDLabel.text = peripheral.identifier.uuidString
+        UUIDLabel.text = selectedPeripheral.peripheral.identifier.uuidString
+        RSSILabel.text = String(selectedPeripheral.RSSI)
         
-        peripheral.delegate = self
-        peripheral.readRSSI()
-        peripheral.discoverServices(nil)
-    }
-    
-    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
-        print("Did discover services.")
-        if let error = error {
-            print(error)
-        }
-        else {
-            print("\(peripheral.services)")
-            tableView.reloadData()
-            checkingPeripheral()
-        }
-    }
-    
-    func checkingPeripheral() {
-        if let services = peripheral.services {
-            var found = false
-            var i = 0
-            while (!found && i < services.count) {
-                let service = services[i]
-                if (service.uuid.uuidString .caseInsensitiveCompare(UartServiceUUID) == .orderedSame) {
-                    found = true
-                    uartService = service
-                    
-                    /*peripheral.discoverCharacteristics([CBUUID(string: UartManager.RxCharacteristicUUID), CBUUID(string: UartManager.TxCharacteristicUUID)], for: service)*/
-                }
-                i += 1
-            }
-            if !found {
-                if let navigationController = self.navigationController{
-                        navigationController.popToRootViewController(animated:true)
-                }
-            }
-        }
-    
+        //selectedPeripheral.peripheral.delegate = self
+        selectedPeripheral.peripheral.readRSSI()
+        selectedPeripheral.peripheral.discoverServices(nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -81,34 +52,43 @@ class ConnectedPeripheralViewController: UIViewController, CBPeripheralDelegate,
         // Dispose of any resources that can be recreated.
     }
     
-    func peripheral(_ peripheral: CBPeripheral, didReadRSSI RSSI: NSNumber, error: Error?) {
-        print("Did read RSSI.")
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         if let error = error {
-            print("Error getting RSSI: \(error)")
-            RSSILabel.text = "Error getting RSSI."
+            print(error)
         }
         else {
-            RSSILabel.text = "\(RSSI.intValue)"
+            /*
+            print("\(peripheral.services)!")
+            if let services = selectedPeripheral.peripheral.services {
+                for service in services {
+                    if service.uuid.uuidString .caseInsensitiveCompare(ConnectedPeripheralViewController.UartServiceUUID) == .orderedSame {
+                        //startButton.isHidden = false
+                        //startButton.isEnabled = true
+                    }
+                }
+            }*/
+            baseTableView.reloadData()
         }
     }
     
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return peripheral.services?.count ?? 0
+        return selectedPeripheral.peripheral.services?.count ?? 0
     }
     
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let services = peripheral.services else {
+        guard let services = selectedPeripheral.peripheral.services else {
             return UITableViewCell()
         }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "serviceCell", for: indexPath)
         let service = services[indexPath.row]
-        print("Service UUID Desciption: \(service.uuid.description)")
+        
+        //print("Service UUID Desciption: \(service.uuid.description)")
         cell.textLabel?.text = service.uuid.description
         
         return cell
     }
  
-    
 }
+

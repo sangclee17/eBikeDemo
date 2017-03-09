@@ -18,9 +18,7 @@ class PeripheralsTableViewController: UITableViewController {
         self.refreshControl?.addTarget(self, action: #selector(onTableRefresh(sender:)), for: .valueChanged)
         
         //Setup table view
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.estimatedRowHeight = 134
+        tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
         
         //Start Scanning
@@ -39,10 +37,9 @@ class PeripheralsTableViewController: UITableViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(didUpdateBleState), name: NSNotification.Name(rawValue: BleManager.BleNotifications.DidUpdateBleState.rawValue), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didDisconnectFromPeripheral), name: NSNotification.Name(rawValue: BleManager.BleNotifications.DidDisconnectFromPeripheral.rawValue), object: nil)
         
-        tableView.reloadData()
     }
     
-    deinit {
+    override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: BleManager.BleNotifications.DidDiscoverPeripheral.rawValue), object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: BleManager.BleNotifications.WillConnectToPeripheral.rawValue), object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: BleManager.BleNotifications.DidDisconnectFromPeripheral.rawValue), object: nil)
@@ -56,7 +53,7 @@ class PeripheralsTableViewController: UITableViewController {
     
     func onTableRefresh(sender: AnyObject) {
         
-        visiblePeripherals.removeAll(keepingCapacity: true)
+        visiblePeripherals.removeAll()
         tableView.reloadData()
         BleManager.sharedInstance.refreshPeripherals()
         refreshControl?.endRefreshing()
@@ -66,24 +63,38 @@ class PeripheralsTableViewController: UITableViewController {
         guard let userInfo = notification.userInfo, let identifierString = userInfo["uuid"] as? String else {
             return
         }
-        visiblePeripherals.append(identifierString)
+        if visiblePeripherals.contains(identifierString) {
+            return
+        } else {
+            visiblePeripherals.append(identifierString)
+        }
         tableView.reloadData()
     }
     
     func willConnectToPeripheral(notification: Notification) {
         let alert = UIAlertController(title: "Notification", message: "Connecting...", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: {(_) -> Void in
+        if let peripheral = BleManager.sharedInstance.blePeripheralConnected {
+            BleManager.sharedInstance.disconnect(blePeripheral: peripheral)
+        }
+        }))
+        present(alert, animated: true, completion: nil)
     }
     
     func didConnectToPeripheral(notification: Notification) {
-        let alert = UIAlertController(title: "Notification", message: "Connected", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
-        
-        let ConnectedPeripheralViewController = storyboard?.instantiateViewController(withIdentifier: "ConnectedPeripheralViewController") as! ConnectedPeripheralViewController
-        ConnectedPeripheralViewController.selectedPeripheral = BleManager.sharedInstance.blePeripheralConnected
-        navigationController?.pushViewController(ConnectedPeripheralViewController, animated: true)
+        if presentedViewController != nil {
+            dismiss(animated: true, completion: { [unowned self](_) -> Void in
+                let ConnectedPeripheralViewController = self.storyboard?.instantiateViewController(withIdentifier: "ConnectedPeripheralViewController") as! ConnectedPeripheralViewController
+                ConnectedPeripheralViewController.selectedPeripheral = BleManager.sharedInstance.blePeripheralConnected
+                BleManager.sharedInstance.stopScan()
+                self.navigationController?.pushViewController(ConnectedPeripheralViewController, animated: true)
+            })
+        } else {
+            let ConnectedPeripheralViewController = storyboard?.instantiateViewController(withIdentifier: "ConnectedPeripheralViewController") as! ConnectedPeripheralViewController
+            ConnectedPeripheralViewController.selectedPeripheral = BleManager.sharedInstance.blePeripheralConnected
+            BleManager.sharedInstance.stopScan()
+            navigationController?.pushViewController(ConnectedPeripheralViewController, animated: true)
+        }
     }
     
     func didDisconnectFromPeripheral(notification: Notification) {
@@ -103,7 +114,7 @@ class PeripheralsTableViewController: UITableViewController {
         
         let alert = UIAlertController(title: "Notification", message: "disconnect from \(peripheralName)", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
         tableView.reloadData()
     }
     
@@ -127,7 +138,7 @@ class PeripheralsTableViewController: UITableViewController {
         if let errorMessage = errorMessage {
             let alert = UIAlertController(title: "Notification", message: errorMessage, preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
+            present(alert, animated: true, completion: nil)
         }
     }
     
@@ -157,7 +168,6 @@ class PeripheralsTableViewController: UITableViewController {
             if selectedPeripheral.connectable == "Yes" {
                 bleManager.blePeripheralConnected = selectedPeripheral
                 bleManager.connect(blePeripheral: bleManager.blePeripheralConnected!)
-                bleManager.connectionAttemptTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(bleManager.timeoutPeripheralConnectionAttempt), userInfo: nil, repeats: false)
             }
         }
     }
