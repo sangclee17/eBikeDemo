@@ -238,6 +238,36 @@
             </objects>
             <point key="canvasLocation" x="6538" y="-33"/>
         </scene>
+        <!--Location View Controller-->
+        <scene sceneID="L1m-e9-OWR">
+            <objects>
+                <viewController id="8sM-vS-Xir" customClass="LocationViewController" customModule="ebikeStory" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="7hn-bL-lQO"/>
+                        <viewControllerLayoutGuide type="bottom" id="JKg-Kb-upD"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="dfq-Q5-uOD">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Jhv-oE-cj7">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="8sM-vS-Xir" id="jWc-6u-8Ij"/>
+                                </connections>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="mapVi" destination="Jhv-oE-cj7" id="Dnd-GC-LF6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RRO-OU-F77" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5687.1999999999998" y="654.42278860569718"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="Rl9-li-O9V">
             <objects>

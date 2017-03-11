@@ -22,6 +22,7 @@
 		322AD0CE1E630F3300959BE3 /* mapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322AD0CD1E630F3300959BE3 /* mapViewController.swift */; };
 		3236AE441E6BCAB700A55FDC /* Synchronize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236AE431E6BCAB700A55FDC /* Synchronize.swift */; };
 		32485ACC1E66B66A000F9DB3 /* UartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32485ACB1E66B66A000F9DB3 /* UartManager.swift */; };
+		32E398131E73A3630086AAC3 /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E398121E73A3630086AAC3 /* LocationViewController.swift */; };
 		32FA83211E6542BE00ED2B30 /* PeripheralTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FA83201E6542BE00ED2B30 /* PeripheralTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +65,7 @@
 		322AD0CD1E630F3300959BE3 /* mapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mapViewController.swift; sourceTree = "<group>"; };
 		3236AE431E6BCAB700A55FDC /* Synchronize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Synchronize.swift; sourceTree = "<group>"; };
 		32485ACB1E66B66A000F9DB3 /* UartManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UartManager.swift; sourceTree = "<group>"; };
+		32E398121E73A3630086AAC3 /* LocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationViewController.swift; sourceTree = "<group>"; };
 		32FA83201E6542BE00ED2B30 /* PeripheralTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -127,6 +129,7 @@
 				322AD0CB1E630A9100959BE3 /* ConnectedPeripheralViewController.swift */,
 				322AD09F1E6309E100959BE3 /* PeripheralsTableViewController.swift */,
 				322AD0A11E6309E100959BE3 /* Main.storyboard */,
+				32E398121E73A3630086AAC3 /* LocationViewController.swift */,
 				322AD0A41E6309E100959BE3 /* Assets.xcassets */,
 				322AD0A61E6309E100959BE3 /* LaunchScreen.storyboard */,
 				322AD0A91E6309E100959BE3 /* Info.plist */,
@@ -290,6 +293,7 @@
 				322AD0CC1E630A9100959BE3 /* ConnectedPeripheralViewController.swift in Sources */,
 				321146B31E69571900CBF664 /* BlePeripheral.swift in Sources */,
 				322AD0A01E6309E100959BE3 /* PeripheralsTableViewController.swift in Sources */,
+				32E398131E73A3630086AAC3 /* LocationViewController.swift in Sources */,
 				3206CED01E70C39500F4DAA1 /* LocationManager.swift in Sources */,
 				32485ACC1E66B66A000F9DB3 /* UartManager.swift in Sources */,
 				322AD09E1E6309E100959BE3 /* AppDelegate.swift in Sources */,

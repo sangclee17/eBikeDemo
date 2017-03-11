@@ -49,7 +49,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         let location = locations.first
         
         if let locationDetected = location {
-            
             myCurrentLocation = locationDetected.coordinate
             let span = MKCoordinateSpanMake(0.03, 0.03)
             let myLocation = CLLocationCoordinate2DMake(locationDetected.coordinate.latitude, locationDetected.coordinate.longitude)
@@ -89,7 +88,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         
         for route in response.routes as [MKRoute] {
             mapVi.add(route.polyline, level: .aboveRoads)
-            
             for stepRoute in route.steps {
                 print(stepRoute.instructions)
             }
