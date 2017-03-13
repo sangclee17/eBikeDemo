@@ -250,22 +250,32 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Jhv-oE-cj7">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Jhv-oE-cj7">
                                 <rect key="frame" x="0.0" y="120" width="375" height="547"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
                                     <outlet property="delegate" destination="8sM-vS-Xir" id="jWc-6u-8Ij"/>
                                 </connections>
                             </mapView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J8N-ay-EO3">
-                                <rect key="frame" x="24" y="40" width="335" height="58"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J8N-ay-EO3">
+                                <rect key="frame" x="16" y="39" width="335" height="58"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="58" id="p9I-AP-obq"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="J8N-ay-EO3" firstAttribute="top" secondItem="7hn-bL-lQO" secondAttribute="bottom" constant="19" id="Occ-gS-5PH"/>
+                            <constraint firstItem="Jhv-oE-cj7" firstAttribute="leading" secondItem="dfq-Q5-uOD" secondAttribute="leading" id="S6k-pl-Upp"/>
+                            <constraint firstItem="J8N-ay-EO3" firstAttribute="leading" secondItem="dfq-Q5-uOD" secondAttribute="leadingMargin" id="Tka-rh-TgI"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="J8N-ay-EO3" secondAttribute="trailing" constant="8" id="VKU-Rs-wdT"/>
+                            <constraint firstItem="Jhv-oE-cj7" firstAttribute="top" secondItem="J8N-ay-EO3" secondAttribute="bottom" constant="23" id="Vqy-qV-Err"/>
+                            <constraint firstItem="Jhv-oE-cj7" firstAttribute="bottom" secondItem="JKg-Kb-upD" secondAttribute="top" id="mJJ-4s-Kuy"/>
+                            <constraint firstAttribute="trailing" secondItem="Jhv-oE-cj7" secondAttribute="trailing" id="rvX-vd-gZj"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="locationLabel" destination="J8N-ay-EO3" id="YUv-Zm-Dc6"/>

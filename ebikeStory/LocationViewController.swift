@@ -24,7 +24,10 @@ class LocationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        mapVi.delegate = self
+        CLManager.delegate = self
+        mapVi.showsUserLocation = true
         //Setup CLManager
         CLManager.delegate = self
         CLManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -32,8 +35,13 @@ class LocationViewController: UIViewController {
         
         //Setup directionRequest
         directionRequest.source = MKMapItem.forCurrentLocation()
-        directionRequest.destination = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: -37.81425, longitude: 144.96395), addressDictionary: nil))
+        //home
+        //directionRequest.destination = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: -37.81425, longitude: 144.96395), addressDictionary: nil))
+        //gsa
+        //directionRequest.destination = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude:  -37.800604, longitude: 144.963655), addressDictionary: nil))
+        directionRequest.destination = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: -37.796742, longitude: 144.962733), addressDictionary: nil))
         directionRequest.requestsAlternateRoutes = false
+        directionRequest.transportType = .walking
         let directions = MKDirections(request: directionRequest)
         calculateDirection(directions: directions)
     }
@@ -56,7 +64,7 @@ class LocationViewController: UIViewController {
     func calculateDirection(directions : MKDirections) {
         directions.calculate(completionHandler: {[weak weakself = self](response, error) in
             if error != nil {
-                print("Error\(error)")
+                weakself?.locationLabel.text = "Error\(error)"
             } else {
                 if let directionResponse = response {
                     weakself?.showRoute (response : directionResponse)
@@ -73,7 +81,7 @@ class LocationViewController: UIViewController {
             let pointCount = route.polyline.pointCount
             pathToGo = [CLLocationCoordinate2D](repeating: kCLLocationCoordinate2DInvalid, count: pointCount)
             route.polyline.getCoordinates(&pathToGo, range: NSRange(location: 0, length: pointCount))
-            
+            route.polyline.title = "pathToFollow"
             mapVi.add(route.polyline, level: .aboveRoads)
             
             for stepRoute in route.steps {
@@ -90,10 +98,12 @@ class LocationViewController: UIViewController {
 extension LocationViewController : CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        //var distanceToCheckPoint : Double
-        //var turnDirection : Double
-        
         for location in locations {
+
+             let currentLocation = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
+             let region : MKCoordinateRegion = MKCoordinateRegionMakeWithDistance(currentLocation, 500, 500)
+             self.mapVi.setRegion(region, animated: true)
+    
             let howRecent = location.timestamp.timeIntervalSinceNow
             
             if abs(howRecent) < 10 && location.horizontalAccuracy < 20 {
@@ -103,44 +113,42 @@ extension LocationViewController : CLLocationManagerDelegate {
                         if distanceToCheckPoint <= 100.0 && distanceToCheckPoint >= 90.0 {
                             let turnDirection = bearingFromLocation(fromLocation: location.coordinate, toLocation: pathToGo[checkPoint + 1])
                             if turnDirection > 0 && turnDirection <= 90 {
-                                locationLabel.text = "ready right turn \(distanceToCheckPoint)"
+                                locationLabel.text = "first ready right turn \(distanceToCheckPoint)"
                             }else if turnDirection >= 270 && turnDirection < 360 {
-                                locationLabel.text = "ready left turn \(distanceToCheckPoint)"
+                                locationLabel.text = "frist ready left turn\(distanceToCheckPoint)"
                             }
                         }
-                        else if distanceToCheckPoint <= 60.0 && distanceToCheckPoint >= 50.0 {
+                        if distanceToCheckPoint <= 60.0 && distanceToCheckPoint >= 50.0 {
                             let turnDirection = bearingFromLocation(fromLocation: location.coordinate, toLocation: pathToGo[checkPoint + 1])
                             if turnDirection > 0 && turnDirection <= 90 {
-                                locationLabel.text = "ready right turn \(distanceToCheckPoint)"
+                                locationLabel.text = "second ready right turn \(distanceToCheckPoint)"
                             }else if turnDirection >= 270 && turnDirection < 360 {
-                                locationLabel.text = "ready left turn \(distanceToCheckPoint)"
+                                locationLabel.text = "second ready left turn \(distanceToCheckPoint)"
                             }
                         }
-                        else if distanceToCheckPoint <= 20.0 && distanceToCheckPoint >= 10.0 {
+                        if distanceToCheckPoint <= 20.0 && distanceToCheckPoint >= 10.0 {
                             let turnDirection = bearingFromLocation(fromLocation: location.coordinate, toLocation: pathToGo[checkPoint + 1])
                             if turnDirection > 0 && turnDirection <= 90 {
-                                locationLabel.text = "ready right turn \(distanceToCheckPoint)"
+                                locationLabel.text = "third ready right turn \(distanceToCheckPoint)"
                             }else if turnDirection >= 270 && turnDirection < 360 {
-                                locationLabel.text = "ready left turn \(distanceToCheckPoint)"
+                                locationLabel.text = "third ready left turn \(distanceToCheckPoint)"
                             }
                         }
-                        else if distanceToCheckPoint <= 5.5 {
+                        if distanceToCheckPoint <= 5.5 {
                             checkPoints.remove(at: 0)
+                            locationLabel.text = "removed first element of checkPoints array"
                             if checkPoints.isEmpty {
                                 CLManager.stopUpdatingLocation()
                             }
                         }
                     }
+                
                     var coords = [CLLocationCoordinate2D]()
                     coords.append(locationUpdated.last!.coordinate)
                     coords.append(location.coordinate)
-                    let span = MKCoordinateSpanMake(0.03, 0.03)
-                    let currentLocation = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
-                    let region: MKCoordinateRegion = MKCoordinateRegionMake(currentLocation, span)
-                    self.mapVi.setRegion(region, animated: true)
-                    
-                    self.mapVi.remove(MKPolyline(coordinates: &coords, count: coords.count))
-                    self.mapVi.showsUserLocation = true
+                    let polyLine = MKPolyline(coordinates: &coords, count: coords.count)
+                    polyLine.title = "userPath"
+                    self.mapVi.add(polyLine)
                 }
                 locationUpdated.append(location)
             }
@@ -179,17 +187,24 @@ extension LocationViewController : CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("didFailWithError error = \(error)")
+        locationLabel.text = "didFailWithError error = \(error)"
     }
 }
 
 extension LocationViewController : MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        
         let renderer = MKPolylineRenderer(overlay: overlay)
-        renderer.strokeColor = UIColor.blue
         renderer.alpha = 0.7
         renderer.lineWidth = 4.0
+        
+        if overlay.title!! == "pathToFollow" {
+            renderer.strokeColor = UIColor.blue
+        }
+        else if overlay.title!! == "userPath" {
+            renderer.strokeColor = UIColor.green
+        }
         
         return renderer
     }
