@@ -31,15 +31,15 @@ class LocationViewController: UIViewController {
         //Setup CLManager
         CLManager.delegate = self
         CLManager.desiredAccuracy = kCLLocationAccuracyBest
-        CLManager.distanceFilter = 10.0
+        CLManager.distanceFilter = 7.0
         
         //Setup directionRequest
         directionRequest.source = MKMapItem.forCurrentLocation()
         //home
-        //directionRequest.destination = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: -37.81425, longitude: 144.96395), addressDictionary: nil))
+        directionRequest.destination = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: -37.81425, longitude: 144.96395), addressDictionary: nil))
         //gsa
         //directionRequest.destination = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude:  -37.800604, longitude: 144.963655), addressDictionary: nil))
-        directionRequest.destination = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: -37.796742, longitude: 144.962733), addressDictionary: nil))
+        //directionRequest.destination = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: -37.80196, longitude: 144.958463), addressDictionary: nil))
         directionRequest.requestsAlternateRoutes = false
         directionRequest.transportType = .walking
         let directions = MKDirections(request: directionRequest)
@@ -47,13 +47,9 @@ class LocationViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        locationUpdated.removeAll(keepingCapacity: false)
         CLManager.requestAlwaysAuthorization()
         CLManager.startUpdatingLocation()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        locationUpdated.removeAll(keepingCapacity: false)
     }
 
     override func didReceiveMemoryWarning() {
@@ -83,11 +79,14 @@ class LocationViewController: UIViewController {
             route.polyline.getCoordinates(&pathToGo, range: NSRange(location: 0, length: pointCount))
             route.polyline.title = "pathToFollow"
             mapVi.add(route.polyline, level: .aboveRoads)
-            
+            var noFirst = false
             for stepRoute in route.steps {
+                
                 let cloc = CLLocationCoordinate2DMake(stepRoute.polyline.coordinate.latitude, stepRoute.polyline.coordinate.longitude)
-                if let index = pathToGo.index(where: {$0.latitude == cloc.latitude && $0.longitude == cloc.longitude}) {
+                if let index = pathToGo.index(where: {$0.latitude == cloc.latitude && $0.longitude == cloc.longitude}), noFirst {
                     checkPoints.append(index)
+                }else {
+                    noFirst = true
                 }
                 print(stepRoute.instructions)
             }
@@ -98,60 +97,61 @@ class LocationViewController: UIViewController {
 extension LocationViewController : CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        for location in locations {
-
-             let currentLocation = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
-             let region : MKCoordinateRegion = MKCoordinateRegionMakeWithDistance(currentLocation, 500, 500)
-             self.mapVi.setRegion(region, animated: true)
-    
-            let howRecent = location.timestamp.timeIntervalSinceNow
-            
-            if abs(howRecent) < 10 && location.horizontalAccuracy < 20 {
-                if locationUpdated.count > 0 {
-                    if let checkPoint = checkPoints.first, checkPoints.first != checkPoints.last {
-                        let distanceToCheckPoint = distance(from: location.coordinate, to: pathToGo[checkPoint])
-                        if distanceToCheckPoint <= 100.0 && distanceToCheckPoint >= 90.0 {
-                            let turnDirection = bearingFromLocation(fromLocation: location.coordinate, toLocation: pathToGo[checkPoint + 1])
-                            if turnDirection > 0 && turnDirection <= 90 {
-                                locationLabel.text = "first ready right turn \(distanceToCheckPoint)"
-                            }else if turnDirection >= 270 && turnDirection < 360 {
-                                locationLabel.text = "frist ready left turn\(distanceToCheckPoint)"
-                            }
-                        }
-                        if distanceToCheckPoint <= 60.0 && distanceToCheckPoint >= 50.0 {
-                            let turnDirection = bearingFromLocation(fromLocation: location.coordinate, toLocation: pathToGo[checkPoint + 1])
-                            if turnDirection > 0 && turnDirection <= 90 {
-                                locationLabel.text = "second ready right turn \(distanceToCheckPoint)"
-                            }else if turnDirection >= 270 && turnDirection < 360 {
-                                locationLabel.text = "second ready left turn \(distanceToCheckPoint)"
-                            }
-                        }
-                        if distanceToCheckPoint <= 20.0 && distanceToCheckPoint >= 10.0 {
-                            let turnDirection = bearingFromLocation(fromLocation: location.coordinate, toLocation: pathToGo[checkPoint + 1])
-                            if turnDirection > 0 && turnDirection <= 90 {
-                                locationLabel.text = "third ready right turn \(distanceToCheckPoint)"
-                            }else if turnDirection >= 270 && turnDirection < 360 {
-                                locationLabel.text = "third ready left turn \(distanceToCheckPoint)"
-                            }
-                        }
-                        if distanceToCheckPoint <= 5.5 {
-                            checkPoints.remove(at: 0)
-                            locationLabel.text = "removed first element of checkPoints array"
-                            if checkPoints.isEmpty {
-                                CLManager.stopUpdatingLocation()
-                            }
+        
+        if let location = locations.last {
+            if locationUpdated.count > 0 && location.horizontalAccuracy < 15 {
+                if let checkPoint = checkPoints.first, checkPoints.first != checkPoints.last {
+                    let distanceToCheckPoint = distance(from: location.coordinate, to: pathToGo[checkPoint])
+                    if 50.0...60.0 ~= distanceToCheckPoint {
+                        let turnDirection = bearingFromLocation(fromLocation: location.coordinate, toLocation: pathToGo[checkPoint + 1])
+                        if turnDirection > 0 && turnDirection <= 90 {
+                            locationLabel.text = "first ready right turn \(distanceToCheckPoint)"
+                        }else if turnDirection >= 270 && turnDirection < 360 {
+                            locationLabel.text = "frist ready left turn\(distanceToCheckPoint)"
                         }
                     }
-                
-                    var coords = [CLLocationCoordinate2D]()
-                    coords.append(locationUpdated.last!.coordinate)
-                    coords.append(location.coordinate)
-                    let polyLine = MKPolyline(coordinates: &coords, count: coords.count)
-                    polyLine.title = "userPath"
-                    self.mapVi.add(polyLine)
+                    else if 20.0...30.0 ~= distanceToCheckPoint {
+                        let turnDirection = bearingFromLocation(fromLocation: location.coordinate, toLocation: pathToGo[checkPoint + 1])
+                        if turnDirection > 0 && turnDirection <= 90 {
+                            locationLabel.text = "second ready right turn \(distanceToCheckPoint)"
+                        }else if turnDirection >= 270 && turnDirection < 360 {
+                            locationLabel.text = "second ready left turn \(distanceToCheckPoint)"
+                        }
+                    }
+                    else if 10.0...20.0 ~= distanceToCheckPoint {
+                        let turnDirection = bearingFromLocation(fromLocation: location.coordinate, toLocation: pathToGo[checkPoint + 1])
+                        if turnDirection > 0 && turnDirection <= 90 {
+                            locationLabel.text = "third ready right turn \(distanceToCheckPoint)"
+                        }else if turnDirection >= 270 && turnDirection < 360 {
+                            locationLabel.text = "third ready left turn \(distanceToCheckPoint)"
+                        }
+                    }
+                    else if 0.0 ... 6.0 ~= distanceToCheckPoint {
+                        checkPoints.remove(at: 0)
+                        locationLabel.text = "removed first element of checkPoints array"
+                        if checkPoints.isEmpty {
+                            CLManager.stopUpdatingLocation()
+                            locationUpdated.removeAll(keepingCapacity: false)
+                            locationLabel.text = "finish direction request"
+                        }
+                    }
+                    else {
+                        locationLabel.text = "undefined state"
+                    }
                 }
-                locationUpdated.append(location)
+                var coords = [CLLocationCoordinate2D]()
+                coords.append(locationUpdated.last!.coordinate)
+                coords.append(location.coordinate)
+                let polyLine = MKPolyline(coordinates: &coords, count: coords.count)
+                polyLine.title = "userPath"
+                self.mapVi.add(polyLine)
             }
+            else {
+                let currentLocation = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
+                let region : MKCoordinateRegion = MKCoordinateRegionMakeWithDistance(currentLocation, 500, 500)
+                self.mapVi.setRegion(region, animated: true)
+            }
+            locationUpdated.append(location)
         }
     }
     
