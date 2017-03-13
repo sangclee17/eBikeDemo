@@ -25,6 +25,8 @@ class LocationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //UartManager.sharedInstance.blePeripheral = BleManager.sharedInstance.blePeripheralConnected
+        
         mapVi.delegate = self
         CLManager.delegate = self
         mapVi.showsUserLocation = true
