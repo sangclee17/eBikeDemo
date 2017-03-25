@@ -9,7 +9,7 @@
 import Foundation
 
 class LocationManager: NSObject {
-    
+
     func start() {
         
         print("location manager start")
@@ -23,15 +23,6 @@ class LocationManager: NSObject {
     
     func didSendData(notification: Notification) {
         
-        
-    }
-    
-    func degreesToRadians (value:Double) -> Double {
-        return value * M_PI / 180.0
-    }
-    
-    func radiansToDegrees (value:Double) -> Double {
-        return value * 180.0 / M_PI
     }
     
 }

@@ -6,6 +6,8 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -251,10 +253,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Jhv-oE-cj7">
-                                <rect key="frame" x="0.0" y="120" width="375" height="547"/>
-                                <connections>
-                                    <outlet property="delegate" destination="8sM-vS-Xir" id="jWc-6u-8Ij"/>
-                                </connections>
+                                <rect key="frame" x="0.0" y="120" width="375" height="341"/>
                             </mapView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J8N-ay-EO3">
                                 <rect key="frame" x="16" y="39" width="335" height="58"/>
@@ -265,21 +264,46 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nqO-BM-od1">
+                                <rect key="frame" x="47" y="523" width="95" height="74"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="95" id="HKH-Sr-DQV"/>
+                                </constraints>
+                                <state key="normal" title="Start"/>
+                                <connections>
+                                    <action selector="startPressed:" destination="8sM-vS-Xir" eventType="touchUpInside" id="VK9-pN-fRE"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QjP-cN-YRu">
+                                <rect key="frame" x="215" y="523" width="95" height="74"/>
+                                <state key="normal" title="Stop"/>
+                                <connections>
+                                    <action selector="stopPressed:" destination="8sM-vS-Xir" eventType="touchUpInside" id="c2d-X1-0Mt"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="nqO-BM-od1" firstAttribute="top" secondItem="Jhv-oE-cj7" secondAttribute="bottom" constant="62" id="0Bx-IS-nik"/>
+                            <constraint firstItem="nqO-BM-od1" firstAttribute="leading" secondItem="dfq-Q5-uOD" secondAttribute="leadingMargin" constant="31" id="2GY-2E-dWO"/>
+                            <constraint firstItem="JKg-Kb-upD" firstAttribute="top" secondItem="nqO-BM-od1" secondAttribute="bottom" constant="70" id="7kn-1m-PEw"/>
+                            <constraint firstItem="Jhv-oE-cj7" firstAttribute="leading" secondItem="dfq-Q5-uOD" secondAttribute="leading" id="I62-Qu-tqz"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="QjP-cN-YRu" secondAttribute="trailing" constant="49" id="LRd-vX-Ndg"/>
                             <constraint firstItem="J8N-ay-EO3" firstAttribute="top" secondItem="7hn-bL-lQO" secondAttribute="bottom" constant="19" id="Occ-gS-5PH"/>
-                            <constraint firstItem="Jhv-oE-cj7" firstAttribute="leading" secondItem="dfq-Q5-uOD" secondAttribute="leading" id="S6k-pl-Upp"/>
                             <constraint firstItem="J8N-ay-EO3" firstAttribute="leading" secondItem="dfq-Q5-uOD" secondAttribute="leadingMargin" id="Tka-rh-TgI"/>
+                            <constraint firstItem="QjP-cN-YRu" firstAttribute="baseline" secondItem="nqO-BM-od1" secondAttribute="firstBaseline" id="UN3-Jw-ARA"/>
+                            <constraint firstItem="JKg-Kb-upD" firstAttribute="top" secondItem="Jhv-oE-cj7" secondAttribute="bottom" constant="206" id="UfT-Iw-8ve"/>
+                            <constraint firstAttribute="trailing" secondItem="Jhv-oE-cj7" secondAttribute="trailing" id="UrS-Ya-5qp"/>
                             <constraint firstAttribute="trailingMargin" secondItem="J8N-ay-EO3" secondAttribute="trailing" constant="8" id="VKU-Rs-wdT"/>
-                            <constraint firstItem="Jhv-oE-cj7" firstAttribute="top" secondItem="J8N-ay-EO3" secondAttribute="bottom" constant="23" id="Vqy-qV-Err"/>
-                            <constraint firstItem="Jhv-oE-cj7" firstAttribute="bottom" secondItem="JKg-Kb-upD" secondAttribute="top" id="mJJ-4s-Kuy"/>
-                            <constraint firstAttribute="trailing" secondItem="Jhv-oE-cj7" secondAttribute="trailing" id="rvX-vd-gZj"/>
+                            <constraint firstItem="QjP-cN-YRu" firstAttribute="leading" secondItem="nqO-BM-od1" secondAttribute="trailing" constant="73" id="Wqy-HP-gYo"/>
+                            <constraint firstItem="QjP-cN-YRu" firstAttribute="top" secondItem="nqO-BM-od1" secondAttribute="top" id="h64-SK-Gtu"/>
+                            <constraint firstItem="Jhv-oE-cj7" firstAttribute="top" secondItem="J8N-ay-EO3" secondAttribute="bottom" constant="23" id="t4x-e2-LDC"/>
+                            <constraint firstItem="QjP-cN-YRu" firstAttribute="firstBaseline" secondItem="nqO-BM-od1" secondAttribute="baseline" id="tKR-F2-IhS"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="locationLabel" destination="J8N-ay-EO3" id="YUv-Zm-Dc6"/>
-                        <outlet property="mapVi" destination="Jhv-oE-cj7" id="Dnd-GC-LF6"/>
+                        <outlet property="label" destination="J8N-ay-EO3" id="ib5-kA-H2B"/>
+                        <outlet property="mapView" destination="Jhv-oE-cj7" id="7LO-2o-fD9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RRO-OU-F77" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -21,7 +21,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Allow us to access your current location.</string>
+	<string>eBike wants to track your run</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>eBike wants to track your run</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>location</string>

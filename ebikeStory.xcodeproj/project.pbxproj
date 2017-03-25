@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3203C7791E6E23AF0056AFB6 /* PeripheralTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3203C7781E6E23AF0056AFB6 /* PeripheralTestViewController.swift */; };
 		3206CED01E70C39500F4DAA1 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3206CECF1E70C39500F4DAA1 /* LocationManager.swift */; };
+		3206D1351E85199200E3DBEC /* RoadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3206D1341E85199200E3DBEC /* RoadManager.swift */; };
 		321146B11E6955EF00CBF664 /* BleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321146B01E6955EF00CBF664 /* BleManager.swift */; };
 		321146B31E69571900CBF664 /* BlePeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321146B21E69571900CBF664 /* BlePeripheral.swift */; };
 		322AD09E1E6309E100959BE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322AD09D1E6309E100959BE3 /* AppDelegate.swift */; };
@@ -22,6 +23,7 @@
 		322AD0CE1E630F3300959BE3 /* mapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322AD0CD1E630F3300959BE3 /* mapViewController.swift */; };
 		3236AE441E6BCAB700A55FDC /* Synchronize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236AE431E6BCAB700A55FDC /* Synchronize.swift */; };
 		32485ACC1E66B66A000F9DB3 /* UartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32485ACB1E66B66A000F9DB3 /* UartManager.swift */; };
+		328A73241E83F2320015A5BC /* PinAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328A73231E83F2320015A5BC /* PinAnnotation.swift */; };
 		32E398131E73A3630086AAC3 /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E398121E73A3630086AAC3 /* LocationViewController.swift */; };
 		32FA83211E6542BE00ED2B30 /* PeripheralTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FA83201E6542BE00ED2B30 /* PeripheralTableViewCell.swift */; };
 /* End PBXBuildFile section */
@@ -46,6 +48,7 @@
 /* Begin PBXFileReference section */
 		3203C7781E6E23AF0056AFB6 /* PeripheralTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralTestViewController.swift; sourceTree = "<group>"; };
 		3206CECF1E70C39500F4DAA1 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		3206D1341E85199200E3DBEC /* RoadManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoadManager.swift; sourceTree = "<group>"; };
 		321146B01E6955EF00CBF664 /* BleManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BleManager.swift; sourceTree = "<group>"; };
 		321146B21E69571900CBF664 /* BlePeripheral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlePeripheral.swift; sourceTree = "<group>"; };
 		322AD09A1E6309E100959BE3 /* ebikeStory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ebikeStory.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -65,6 +68,7 @@
 		322AD0CD1E630F3300959BE3 /* mapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mapViewController.swift; sourceTree = "<group>"; };
 		3236AE431E6BCAB700A55FDC /* Synchronize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Synchronize.swift; sourceTree = "<group>"; };
 		32485ACB1E66B66A000F9DB3 /* UartManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UartManager.swift; sourceTree = "<group>"; };
+		328A73231E83F2320015A5BC /* PinAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinAnnotation.swift; sourceTree = "<group>"; };
 		32E398121E73A3630086AAC3 /* LocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationViewController.swift; sourceTree = "<group>"; };
 		32FA83201E6542BE00ED2B30 /* PeripheralTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -130,6 +134,8 @@
 				322AD09F1E6309E100959BE3 /* PeripheralsTableViewController.swift */,
 				322AD0A11E6309E100959BE3 /* Main.storyboard */,
 				32E398121E73A3630086AAC3 /* LocationViewController.swift */,
+				328A73231E83F2320015A5BC /* PinAnnotation.swift */,
+				3206D1341E85199200E3DBEC /* RoadManager.swift */,
 				322AD0A41E6309E100959BE3 /* Assets.xcassets */,
 				322AD0A61E6309E100959BE3 /* LaunchScreen.storyboard */,
 				322AD0A91E6309E100959BE3 /* Info.plist */,
@@ -300,6 +306,7 @@
 				322AD0A01E6309E100959BE3 /* PeripheralsTableViewController.swift in Sources */,
 				32E398131E73A3630086AAC3 /* LocationViewController.swift in Sources */,
 				3206CED01E70C39500F4DAA1 /* LocationManager.swift in Sources */,
+				328A73241E83F2320015A5BC /* PinAnnotation.swift in Sources */,
 				32485ACC1E66B66A000F9DB3 /* UartManager.swift in Sources */,
 				322AD09E1E6309E100959BE3 /* AppDelegate.swift in Sources */,
 				321146B11E6955EF00CBF664 /* BleManager.swift in Sources */,
@@ -307,6 +314,7 @@
 				3203C7791E6E23AF0056AFB6 /* PeripheralTestViewController.swift in Sources */,
 				322AD0CE1E630F3300959BE3 /* mapViewController.swift in Sources */,
 				32FA83211E6542BE00ED2B30 /* PeripheralTableViewCell.swift in Sources */,
+				3206D1351E85199200E3DBEC /* RoadManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

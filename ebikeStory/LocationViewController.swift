@@ -10,6 +10,7 @@ import UIKit
 import CoreLocation
 import MapKit
 
+/*
 class LocationViewController: UIViewController {
     
     fileprivate let CLManager = CLLocationManager()
@@ -33,7 +34,7 @@ class LocationViewController: UIViewController {
         //Setup CLManager
         CLManager.delegate = self
         CLManager.desiredAccuracy = kCLLocationAccuracyBest
-        CLManager.distanceFilter = 7.0
+        CLManager.distanceFilter = 10.0
         
         //Setup directionRequest
         directionRequest.source = MKMapItem.forCurrentLocation()
@@ -43,7 +44,7 @@ class LocationViewController: UIViewController {
         //directionRequest.destination = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude:  -37.800604, longitude: 144.963655), addressDictionary: nil))
         //directionRequest.destination = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: -37.80196, longitude: 144.958463), addressDictionary: nil))
         directionRequest.requestsAlternateRoutes = false
-        directionRequest.transportType = .walking
+        //directionRequest.transportType = .any
         let directions = MKDirections(request: directionRequest)
         calculateDirection(directions: directions)
     }
@@ -211,12 +212,137 @@ extension LocationViewController : MKMapViewDelegate {
         return renderer
     }
 }
+*/
 
+class LocationViewController: UIViewController {
+    
+    var seconds = 0.0
+    var distance = 0.0
+    
+    fileprivate let CLManager = CLLocationManager()
+    //fileprivate var checkPoints = [CLLocationCoordinate2D]()
+    let roadManager = RoadManager()
+    var pathToGo = [CLLocationCoordinate2D]()
+    //var log = [Date : CLLocationCoordinate2D]()
+    
+    let pins = PinAnnotation()
+    
+    lazy var locationManager: CLLocationManager = {
+        var location_manager = CLLocationManager()
+        location_manager.delegate = self
+        location_manager.desiredAccuracy = kCLLocationAccuracyBest
+        
+        location_manager.distanceFilter = 10.0
+        return location_manager
+    }()
+    
+    lazy var locationsUpdated = [CLLocation]()
+    lazy var timer = Timer()
+    
+    
+    @IBOutlet weak var mapView: MKMapView! {
+        didSet {
+            mapView.delegate = self
+        }
+    }
+    
+    @IBAction func startPressed(_ sender: Any) {
+        seconds = 0.0
+        distance = 0.0
+        locationsUpdated.removeAll(keepingCapacity: false)
+        //timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: Selector(("eachSecond")),
+        //                             userInfo: nil, repeats: true)
+        startLocationUpdates()
+    }
+    
+    @IBAction func stopPressed(_ sender: Any) {
+        
+    }
+    @IBOutlet weak var label: UILabel!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        showRoute()
+        roadManager.printPath()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        locationManager.requestAlwaysAuthorization()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        timer.invalidate()
+    }
+    
+    func eachSecond(timer: Timer) {
+        
+    }
+    
+    func startLocationUpdates() {
+        //initiate locationManager
+        locationManager.startUpdatingLocation()
+    }
+    
+    func showRoute() {
+        
+        let locations = pins.locations
+        for location in locations {
+            let annotation = MKPointAnnotation()
+            annotation.title = location.title
+            annotation.coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
+            roadManager.checkPoints.append(annotation.coordinate)
+            mapView.addAnnotation(annotation)
+        }
+        //draw polyLine among annotations
+        let polyLine = MKPolyline (coordinates: &roadManager.checkPoints, count: roadManager.checkPoints.count)
+        mapView.add(polyLine)
+        /*
+        // fetch route coordinates
+        let pointCount = polyLine.pointCount
+        print(pointCount)
+        pathToGo = [CLLocationCoordinate2D](repeating: kCLLocationCoordinate2DInvalid, count: pointCount)
+        polyLine.getCoordinates(&pathToGo, range: NSRange(location: 0, length: pointCount))
+ */
+    }
+    
+    
+    
+}
 
+extension LocationViewController : CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        for location in locations {
+            if location.horizontalAccuracy < 20 {
+                if self.locationsUpdated.count > 0 {
+                    
+                }
+                //log[location.timestamp] = location.coordinate
+                locationsUpdated.append(location)
+            }
+        }
+        /*
+        if let location = locations.last {
+            let currentLocation = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
+            let region : MKCoordinateRegion = MKCoordinateRegionMakeWithDistance(currentLocation, 700, 700)
+            self.mapView.setRegion(region, animated: true)
+        }*/
+    }
+}
 
-
-
-
+extension LocationViewController : MKMapViewDelegate {
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        renderer.alpha = 0.7
+        renderer.lineWidth = 4.0
+        
+        renderer.strokeColor = UIColor.blue
+        
+        return renderer
+    }
+}
 
 
 
