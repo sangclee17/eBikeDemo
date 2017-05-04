@@ -88,35 +88,8 @@ class LocationViewController: UIViewController, MFMailComposeViewControllerDeleg
         sendMailAlert.addAction((cancel))
         self.present(sendMailAlert, animated: true, completion: nil)
     }
-    /*
-    func freeData() {
-        dataManager.userLocation.removeAll(keepingCapacity: false)
-        pathToGo.removeAll(keepingCapacity: false)
-        print("clean now")
-    }*/
     
     func sendFileToMail() {
-        /*
-         //configure activityIndicator
-         let activityIndicator = UIActivityIndicatorView()
-         activityIndicator.center = self.view.center
-         activityIndicator.hidesWhenStopped = true
-         activityIndicator.activityIndicatorViewStyle = .gray
-         view.addSubview(activityIndicator)
-         activityIndicator.startAnimating()
-         
-         //create csv file asynchronously
-         DispatchQueue.global(qos: .userInitiated).async { [weak weakSelf = self] in
-         let result = weakSelf?.dataManager.createCSV()
-         DispatchQueue.main.async {
-         if result! {
-         activityIndicator.stopAnimating()
-         } else {
-         print("Asynchronously failed!!")
-         }
-         }
-         }
-         */
         dataManager.createCSV()
         
         //send email
