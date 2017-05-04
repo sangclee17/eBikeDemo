@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="8sM-vS-Xir">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="kFv-qG-xfC">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
-        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
-        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -82,6 +80,7 @@
                     </refreshControl>
                     <connections>
                         <segue destination="9kf-kZ-w7l" kind="show" id="Tn1-EO-Sh3"/>
+                        <segue destination="8sM-vS-Xir" kind="show" identifier="" id="48A-Iz-v7W"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gPW-D7-53v" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -145,16 +144,6 @@
                                     <outlet property="delegate" destination="9kf-kZ-w7l" id="MP9-EL-O4H"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RbO-ur-41K">
-                                <rect key="frame" x="164" y="263" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <state key="normal" title="Start"/>
-                                <connections>
-                                    <action selector="startButton:" destination="9kf-kZ-w7l" eventType="touchUpInside" id="LnB-fx-gxY"/>
-                                    <segue destination="Zuf-bI-K8D" kind="show" id="SOU-DY-g27"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -181,69 +170,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MHX-pk-Cm9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4525" y="-108"/>
-        </scene>
-        <!--Peripheral Test View Controller-->
-        <scene sceneID="661-Gl-gIw">
-            <objects>
-                <viewController id="Zuf-bI-K8D" customClass="PeripheralTestViewController" customModule="ebikeStory" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="BN6-UJ-qr0"/>
-                        <viewControllerLayoutGuide type="bottom" id="bCt-xs-nTm"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="o79-hE-ct5">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CWA-PA-xM6">
-                                <rect key="frame" x="66" y="197" width="243" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <connections>
-                        <outlet property="MessageSent" destination="CWA-PA-xM6" id="uBT-Mv-F2d"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="4bM-7J-CKV" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="5472.8000000000002" y="-107.49625187406298"/>
-        </scene>
-        <!--Map View Controller-->
-        <scene sceneID="15a-Oa-Vba">
-            <objects>
-                <viewController id="mSH-5g-Qrf" customClass="mapViewController" customModule="ebikeStory" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="o2c-Eo-Pb0"/>
-                        <viewControllerLayoutGuide type="bottom" id="tSl-4Z-Dxs"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="MbN-rr-QCk">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="308-1Y-qPi">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <connections>
-                                    <outlet property="delegate" destination="mSH-5g-Qrf" id="y8W-zn-bsi"/>
-                                </connections>
-                            </mapView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="rqT-DK-7op" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="6538" y="-33"/>
+            <point key="canvasLocation" x="4791" y="-511"/>
         </scene>
         <!--Location View Controller-->
         <scene sceneID="L1m-e9-OWR">
             <objects>
-                <viewController id="8sM-vS-Xir" customClass="LocationViewController" customModule="ebikeStory" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LocationViewController" id="8sM-vS-Xir" customClass="LocationViewController" customModule="ebikeStory" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="7hn-bL-lQO"/>
                         <viewControllerLayoutGuide type="bottom" id="JKg-Kb-upD"/>
@@ -253,62 +185,68 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Jhv-oE-cj7">
-                                <rect key="frame" x="0.0" y="120" width="375" height="341"/>
+                                <rect key="frame" x="0.0" y="140" width="375" height="417"/>
                             </mapView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J8N-ay-EO3">
-                                <rect key="frame" x="16" y="39" width="335" height="58"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J8N-ay-EO3">
+                                <rect key="frame" x="16" y="72" width="343" height="60"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="58" id="p9I-AP-obq"/>
+                                    <constraint firstAttribute="height" constant="60" id="UGh-oI-fS4"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nqO-BM-od1">
-                                <rect key="frame" x="47" y="523" width="95" height="74"/>
+                                <rect key="frame" x="129" y="276" width="117" height="115"/>
+                                <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="95" id="HKH-Sr-DQV"/>
+                                    <constraint firstAttribute="width" constant="117" id="G0P-02-yR5"/>
+                                    <constraint firstAttribute="height" constant="115" id="KFB-Z7-8ej"/>
                                 </constraints>
-                                <state key="normal" title="Start"/>
+                                <state key="normal" title="START"/>
                                 <connections>
                                     <action selector="startPressed:" destination="8sM-vS-Xir" eventType="touchUpInside" id="VK9-pN-fRE"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QjP-cN-YRu">
-                                <rect key="frame" x="215" y="523" width="95" height="74"/>
-                                <state key="normal" title="Stop"/>
+                                <rect key="frame" x="75" y="582" width="224" height="47"/>
+                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="47" id="9KY-Ld-Zag"/>
+                                </constraints>
+                                <state key="normal" title="STOP"/>
                                 <connections>
                                     <action selector="stopPressed:" destination="8sM-vS-Xir" eventType="touchUpInside" id="c2d-X1-0Mt"/>
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="nqO-BM-od1" firstAttribute="top" secondItem="Jhv-oE-cj7" secondAttribute="bottom" constant="62" id="0Bx-IS-nik"/>
-                            <constraint firstItem="nqO-BM-od1" firstAttribute="leading" secondItem="dfq-Q5-uOD" secondAttribute="leadingMargin" constant="31" id="2GY-2E-dWO"/>
-                            <constraint firstItem="JKg-Kb-upD" firstAttribute="top" secondItem="nqO-BM-od1" secondAttribute="bottom" constant="70" id="7kn-1m-PEw"/>
-                            <constraint firstItem="Jhv-oE-cj7" firstAttribute="leading" secondItem="dfq-Q5-uOD" secondAttribute="leading" id="I62-Qu-tqz"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="QjP-cN-YRu" secondAttribute="trailing" constant="49" id="LRd-vX-Ndg"/>
-                            <constraint firstItem="J8N-ay-EO3" firstAttribute="top" secondItem="7hn-bL-lQO" secondAttribute="bottom" constant="19" id="Occ-gS-5PH"/>
-                            <constraint firstItem="J8N-ay-EO3" firstAttribute="leading" secondItem="dfq-Q5-uOD" secondAttribute="leadingMargin" id="Tka-rh-TgI"/>
-                            <constraint firstItem="QjP-cN-YRu" firstAttribute="baseline" secondItem="nqO-BM-od1" secondAttribute="firstBaseline" id="UN3-Jw-ARA"/>
-                            <constraint firstItem="JKg-Kb-upD" firstAttribute="top" secondItem="Jhv-oE-cj7" secondAttribute="bottom" constant="206" id="UfT-Iw-8ve"/>
-                            <constraint firstAttribute="trailing" secondItem="Jhv-oE-cj7" secondAttribute="trailing" id="UrS-Ya-5qp"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="J8N-ay-EO3" secondAttribute="trailing" constant="8" id="VKU-Rs-wdT"/>
-                            <constraint firstItem="QjP-cN-YRu" firstAttribute="leading" secondItem="nqO-BM-od1" secondAttribute="trailing" constant="73" id="Wqy-HP-gYo"/>
-                            <constraint firstItem="QjP-cN-YRu" firstAttribute="top" secondItem="nqO-BM-od1" secondAttribute="top" id="h64-SK-Gtu"/>
-                            <constraint firstItem="Jhv-oE-cj7" firstAttribute="top" secondItem="J8N-ay-EO3" secondAttribute="bottom" constant="23" id="t4x-e2-LDC"/>
-                            <constraint firstItem="QjP-cN-YRu" firstAttribute="firstBaseline" secondItem="nqO-BM-od1" secondAttribute="baseline" id="tKR-F2-IhS"/>
+                            <constraint firstItem="Jhv-oE-cj7" firstAttribute="leading" secondItem="dfq-Q5-uOD" secondAttribute="leading" id="1eh-nm-Rdv"/>
+                            <constraint firstItem="nqO-BM-od1" firstAttribute="centerY" secondItem="dfq-Q5-uOD" secondAttribute="centerY" id="3GP-su-2OB"/>
+                            <constraint firstItem="QjP-cN-YRu" firstAttribute="top" secondItem="Jhv-oE-cj7" secondAttribute="bottom" constant="25" id="4BO-rk-JeH"/>
+                            <constraint firstItem="JKg-Kb-upD" firstAttribute="top" secondItem="QjP-cN-YRu" secondAttribute="bottom" constant="38" id="4IP-Yg-r2e"/>
+                            <constraint firstItem="J8N-ay-EO3" firstAttribute="top" secondItem="7hn-bL-lQO" secondAttribute="bottom" constant="8" symbolic="YES" id="8q4-HY-7hv"/>
+                            <constraint firstItem="J8N-ay-EO3" firstAttribute="leading" secondItem="dfq-Q5-uOD" secondAttribute="leadingMargin" id="Otn-e1-lAq"/>
+                            <constraint firstItem="Jhv-oE-cj7" firstAttribute="top" secondItem="J8N-ay-EO3" secondAttribute="bottom" constant="8" symbolic="YES" id="OwR-Bs-CLI"/>
+                            <constraint firstItem="nqO-BM-od1" firstAttribute="centerX" secondItem="QjP-cN-YRu" secondAttribute="centerX" id="TDm-tT-3Tt"/>
+                            <constraint firstAttribute="trailing" secondItem="Jhv-oE-cj7" secondAttribute="trailing" id="Xkh-Ex-79C"/>
+                            <constraint firstItem="QjP-cN-YRu" firstAttribute="leading" secondItem="dfq-Q5-uOD" secondAttribute="leadingMargin" constant="59" id="f4a-ud-cmL"/>
+                            <constraint firstItem="J8N-ay-EO3" firstAttribute="centerX" secondItem="nqO-BM-od1" secondAttribute="centerX" id="w8I-6x-1Ns"/>
+                            <constraint firstItem="Jhv-oE-cj7" firstAttribute="centerX" secondItem="nqO-BM-od1" secondAttribute="centerX" id="z3k-ZX-cVV"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="label" destination="J8N-ay-EO3" id="ib5-kA-H2B"/>
                         <outlet property="mapView" destination="Jhv-oE-cj7" id="7LO-2o-fD9"/>
+                        <outlet property="startButton" destination="nqO-BM-od1" id="uGC-mU-SaC"/>
+                        <outlet property="stopButton" destination="QjP-cN-YRu" id="yzB-ef-E34"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RRO-OU-F77" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5687.1999999999998" y="654.42278860569718"/>
+            <point key="canvasLocation" x="4790" y="270"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Rl9-li-O9V">
@@ -326,7 +264,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2Ce-Aa-I9U" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2973.5999999999999" y="-106.59670164917542"/>
+            <point key="canvasLocation" x="2778" y="-107"/>
         </scene>
     </scenes>
 </document>

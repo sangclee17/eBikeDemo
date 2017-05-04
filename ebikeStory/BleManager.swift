@@ -34,7 +34,7 @@ class BleManager : NSObject, CBCentralManagerDelegate {
     
     override init() {
         super.init()
-        centralManager = CBCentralManager(delegate: self, queue: nil, options: [CBCentralManagerOptionShowPowerAlertKey: true])
+        centralManager = CBCentralManager(delegate: self, queue: DispatchQueue.global(qos: .background), options: [CBCentralManagerOptionShowPowerAlertKey: true])
     }
     
     func restoreCentralManager() {
@@ -64,12 +64,14 @@ class BleManager : NSObject, CBCentralManagerDelegate {
     
     func refreshPeripherals() {
         stopScan()
-        
-        blePeripheralsFound.removeAll()
-            if let connected = blePeripheralConnected {
-                blePeripheralsFound[connected.peripheral.identifier.uuidString] = connected
+        synchronize(lock: blePeripheralsFound as AnyObject) { [weak weakSelf = self] in
+            weakSelf?.blePeripheralsFound.removeAll()
+            
+            // Do not remove connected peripherals
+            if let connected = weakSelf?.blePeripheralConnected {
+                weakSelf?.blePeripheralsFound[connected.peripheral.identifier.uuidString] = connected
             }
-        
+        }
         startScan()
     }
     
@@ -79,18 +81,18 @@ class BleManager : NSObject, CBCentralManagerDelegate {
     }
     
     func disconnect(blePeripheral: BlePeripheral) {
-        print("disconnecting fro: \(blePeripheral.name)")
+        //print("disconnecting fro: \(String(describing: blePeripheral.name))")
         centralManager?.cancelPeripheralConnection(blePeripheral.peripheral)
         NotificationCenter.default.post(name: NSNotification.Name(BleNotifications.WillDisconnectFromPeripheral.rawValue), object: nil)
     }
     
     func discover(blePeripheral: BlePeripheral, serviceUUIDs:[CBUUID]?) {
-        print("discover services")
+        //print("discover services")
         blePeripheral.peripheral.discoverServices(serviceUUIDs)
     }
     
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        print("centralManagerDidUpdateState \(central.state.rawValue)")
+        //print("centralManagerDidUpdateState \(central.state.rawValue)")
         
         if (central.state == .poweredOn) {
             startScan()
@@ -113,10 +115,10 @@ class BleManager : NSObject, CBCentralManagerDelegate {
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         let identifierString = peripheral.identifier.uuidString
-        print("didDiscoverPeripheral \(peripheral.name)")
+        //print("didDiscoverPeripheral \(String(describing: peripheral.name))")
         
-        synchronize(lock: blePeripheralsFound as AnyObject) {
-            if let existingPeripheral = self.blePeripheralsFound[identifierString] {
+        synchronize(lock: blePeripheralsFound as AnyObject) { [weak weakSelf = self] in
+            if let existingPeripheral = weakSelf?.blePeripheralsFound[identifierString] {
                 // Existing peripheral. Update advertisement data because each time is discovered the advertisement data could miss some of the keys (sometimes a sevice is there, and other times has dissapeared)
                 
                 existingPeripheral.RSSI = RSSI.intValue
@@ -139,13 +141,14 @@ class BleManager : NSObject, CBCentralManagerDelegate {
         print("didConnectPeripheral: \(peripheral.name != nil ? peripheral.name! : "")")
         
         let identifier = peripheral.identifier.uuidString
-        self.blePeripheralConnected = self.blePeripheralsFound[identifier]
-        
+        synchronize(lock: blePeripheralsFound as AnyObject) { [weak weakSelf = self] in
+            weakSelf?.blePeripheralConnected = weakSelf?.blePeripheralsFound[identifier]
+        }
         NotificationCenter.default.post(name: Notification.Name(rawValue: BleNotifications.DidConnectToPeripheral.rawValue), object: nil, userInfo: ["uuid" : identifier])
     }
     
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
-        print("didDisconnectPeripheral: \(peripheral.name != nil ? peripheral.name! : "")")
+        //print("didDisconnectPeripheral: \(peripheral.name != nil ? peripheral.name! : "")")
         
         peripheral.delegate = nil
         if peripheral.identifier == blePeripheralConnected?.peripheral.identifier {

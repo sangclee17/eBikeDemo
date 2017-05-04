@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3203C7791E6E23AF0056AFB6 /* PeripheralTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3203C7781E6E23AF0056AFB6 /* PeripheralTestViewController.swift */; };
-		3206CED01E70C39500F4DAA1 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3206CECF1E70C39500F4DAA1 /* LocationManager.swift */; };
 		3206D1351E85199200E3DBEC /* RoadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3206D1341E85199200E3DBEC /* RoadManager.swift */; };
 		321146B11E6955EF00CBF664 /* BleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321146B01E6955EF00CBF664 /* BleManager.swift */; };
 		321146B31E69571900CBF664 /* BlePeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321146B21E69571900CBF664 /* BlePeripheral.swift */; };
+		321A86091E8BB3CF003FB0F0 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321A86081E8BB3CF003FB0F0 /* DataManager.swift */; };
+		321A860D1E8C0603003FB0F0 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 321A860C1E8C0603003FB0F0 /* MessageUI.framework */; };
 		322AD09E1E6309E100959BE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322AD09D1E6309E100959BE3 /* AppDelegate.swift */; };
 		322AD0A01E6309E100959BE3 /* PeripheralsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322AD09F1E6309E100959BE3 /* PeripheralsTableViewController.swift */; };
 		322AD0A31E6309E100959BE3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 322AD0A11E6309E100959BE3 /* Main.storyboard */; };
@@ -20,12 +20,13 @@
 		322AD0B31E6309E200959BE3 /* ebikeStoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322AD0B21E6309E200959BE3 /* ebikeStoryTests.swift */; };
 		322AD0BE1E6309E200959BE3 /* ebikeStoryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322AD0BD1E6309E200959BE3 /* ebikeStoryUITests.swift */; };
 		322AD0CC1E630A9100959BE3 /* ConnectedPeripheralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322AD0CB1E630A9100959BE3 /* ConnectedPeripheralViewController.swift */; };
-		322AD0CE1E630F3300959BE3 /* mapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322AD0CD1E630F3300959BE3 /* mapViewController.swift */; };
 		3236AE441E6BCAB700A55FDC /* Synchronize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3236AE431E6BCAB700A55FDC /* Synchronize.swift */; };
 		32485ACC1E66B66A000F9DB3 /* UartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32485ACB1E66B66A000F9DB3 /* UartManager.swift */; };
 		328A73241E83F2320015A5BC /* PinAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328A73231E83F2320015A5BC /* PinAnnotation.swift */; };
 		32E398131E73A3630086AAC3 /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E398121E73A3630086AAC3 /* LocationViewController.swift */; };
 		32FA83211E6542BE00ED2B30 /* PeripheralTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FA83201E6542BE00ED2B30 /* PeripheralTableViewCell.swift */; };
+		32FB67CB1EBAC10900157658 /* MqttManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FB67CA1EBAC10900157658 /* MqttManager.swift */; };
+		98AAC01529F8AE938A5D7D1E /* Pods_ebikeStory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41FE66A7EA954F5535548E77 /* Pods_ebikeStory.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,11 +47,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3203C7781E6E23AF0056AFB6 /* PeripheralTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralTestViewController.swift; sourceTree = "<group>"; };
-		3206CECF1E70C39500F4DAA1 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		27BEF0B6E7887024409EB66A /* Pods-ebikeStory.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ebikeStory.release.xcconfig"; path = "Pods/Target Support Files/Pods-ebikeStory/Pods-ebikeStory.release.xcconfig"; sourceTree = "<group>"; };
 		3206D1341E85199200E3DBEC /* RoadManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoadManager.swift; sourceTree = "<group>"; };
 		321146B01E6955EF00CBF664 /* BleManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BleManager.swift; sourceTree = "<group>"; };
 		321146B21E69571900CBF664 /* BlePeripheral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlePeripheral.swift; sourceTree = "<group>"; };
+		321A86081E8BB3CF003FB0F0 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		321A860C1E8C0603003FB0F0 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		322AD09A1E6309E100959BE3 /* ebikeStory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ebikeStory.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		322AD09D1E6309E100959BE3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		322AD09F1E6309E100959BE3 /* PeripheralsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralsTableViewController.swift; sourceTree = "<group>"; };
@@ -65,19 +67,23 @@
 		322AD0BD1E6309E200959BE3 /* ebikeStoryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ebikeStoryUITests.swift; sourceTree = "<group>"; };
 		322AD0BF1E6309E200959BE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		322AD0CB1E630A9100959BE3 /* ConnectedPeripheralViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectedPeripheralViewController.swift; sourceTree = "<group>"; };
-		322AD0CD1E630F3300959BE3 /* mapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mapViewController.swift; sourceTree = "<group>"; };
 		3236AE431E6BCAB700A55FDC /* Synchronize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Synchronize.swift; sourceTree = "<group>"; };
 		32485ACB1E66B66A000F9DB3 /* UartManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UartManager.swift; sourceTree = "<group>"; };
 		328A73231E83F2320015A5BC /* PinAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinAnnotation.swift; sourceTree = "<group>"; };
 		32E398121E73A3630086AAC3 /* LocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationViewController.swift; sourceTree = "<group>"; };
 		32FA83201E6542BE00ED2B30 /* PeripheralTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeripheralTableViewCell.swift; sourceTree = "<group>"; };
+		32FB67CA1EBAC10900157658 /* MqttManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MqttManager.swift; sourceTree = "<group>"; };
+		41FE66A7EA954F5535548E77 /* Pods_ebikeStory.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ebikeStory.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AE84BC1CDB272DE6CE974EEA /* Pods-ebikeStory.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ebikeStory.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ebikeStory/Pods-ebikeStory.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		322AD0971E6309E100959BE3 /* Frameworks */ = {
+		321A860A1E8C0587003FB0F0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				321A860D1E8C0603003FB0F0 /* MessageUI.framework in Frameworks */,
+				98AAC01529F8AE938A5D7D1E /* Pods_ebikeStory.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,6 +104,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		321A860B1E8C0603003FB0F0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				321A860C1E8C0603003FB0F0 /* MessageUI.framework */,
+				41FE66A7EA954F5535548E77 /* Pods_ebikeStory.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		322AD0911E6309E100959BE3 = {
 			isa = PBXGroup;
 			children = (
@@ -105,6 +120,8 @@
 				322AD0B11E6309E200959BE3 /* ebikeStoryTests */,
 				322AD0BC1E6309E200959BE3 /* ebikeStoryUITests */,
 				322AD09B1E6309E100959BE3 /* Products */,
+				321A860B1E8C0603003FB0F0 /* Frameworks */,
+				A7DA45A7A8725EEA69444324 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -122,20 +139,19 @@
 			isa = PBXGroup;
 			children = (
 				322AD09D1E6309E100959BE3 /* AppDelegate.swift */,
-				322AD0CD1E630F3300959BE3 /* mapViewController.swift */,
 				32FA83201E6542BE00ED2B30 /* PeripheralTableViewCell.swift */,
 				32485ACB1E66B66A000F9DB3 /* UartManager.swift */,
-				3206CECF1E70C39500F4DAA1 /* LocationManager.swift */,
 				321146B01E6955EF00CBF664 /* BleManager.swift */,
 				3236AE431E6BCAB700A55FDC /* Synchronize.swift */,
 				321146B21E69571900CBF664 /* BlePeripheral.swift */,
-				3203C7781E6E23AF0056AFB6 /* PeripheralTestViewController.swift */,
 				322AD0CB1E630A9100959BE3 /* ConnectedPeripheralViewController.swift */,
 				322AD09F1E6309E100959BE3 /* PeripheralsTableViewController.swift */,
 				322AD0A11E6309E100959BE3 /* Main.storyboard */,
 				32E398121E73A3630086AAC3 /* LocationViewController.swift */,
 				328A73231E83F2320015A5BC /* PinAnnotation.swift */,
 				3206D1341E85199200E3DBEC /* RoadManager.swift */,
+				32FB67CA1EBAC10900157658 /* MqttManager.swift */,
+				321A86081E8BB3CF003FB0F0 /* DataManager.swift */,
 				322AD0A41E6309E100959BE3 /* Assets.xcassets */,
 				322AD0A61E6309E100959BE3 /* LaunchScreen.storyboard */,
 				322AD0A91E6309E100959BE3 /* Info.plist */,
@@ -161,6 +177,15 @@
 			path = ebikeStoryUITests;
 			sourceTree = "<group>";
 		};
+		A7DA45A7A8725EEA69444324 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				AE84BC1CDB272DE6CE974EEA /* Pods-ebikeStory.debug.xcconfig */,
+				27BEF0B6E7887024409EB66A /* Pods-ebikeStory.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -168,9 +193,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 322AD0C21E6309E200959BE3 /* Build configuration list for PBXNativeTarget "ebikeStory" */;
 			buildPhases = (
+				41B1F155737C58A00A3EC241 /* [CP] Check Pods Manifest.lock */,
 				322AD0961E6309E100959BE3 /* Sources */,
-				322AD0971E6309E100959BE3 /* Frameworks */,
 				322AD0981E6309E100959BE3 /* Resources */,
+				321A860A1E8C0587003FB0F0 /* Frameworks */,
+				E028E13E90B1E05F2958DE53 /* [CP] Embed Pods Frameworks */,
+				5760605982B422DE4DF176A4 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -296,23 +324,70 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		41B1F155737C58A00A3EC241 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		5760605982B422DE4DF176A4 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ebikeStory/Pods-ebikeStory-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E028E13E90B1E05F2958DE53 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ebikeStory/Pods-ebikeStory-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		322AD0961E6309E100959BE3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				322AD0CC1E630A9100959BE3 /* ConnectedPeripheralViewController.swift in Sources */,
+				321A86091E8BB3CF003FB0F0 /* DataManager.swift in Sources */,
 				321146B31E69571900CBF664 /* BlePeripheral.swift in Sources */,
 				322AD0A01E6309E100959BE3 /* PeripheralsTableViewController.swift in Sources */,
 				32E398131E73A3630086AAC3 /* LocationViewController.swift in Sources */,
-				3206CED01E70C39500F4DAA1 /* LocationManager.swift in Sources */,
+				32FB67CB1EBAC10900157658 /* MqttManager.swift in Sources */,
 				328A73241E83F2320015A5BC /* PinAnnotation.swift in Sources */,
 				32485ACC1E66B66A000F9DB3 /* UartManager.swift in Sources */,
 				322AD09E1E6309E100959BE3 /* AppDelegate.swift in Sources */,
 				321146B11E6955EF00CBF664 /* BleManager.swift in Sources */,
 				3236AE441E6BCAB700A55FDC /* Synchronize.swift in Sources */,
-				3203C7791E6E23AF0056AFB6 /* PeripheralTestViewController.swift in Sources */,
-				322AD0CE1E630F3300959BE3 /* mapViewController.swift in Sources */,
 				32FA83211E6542BE00ED2B30 /* PeripheralTableViewCell.swift in Sources */,
 				3206D1351E85199200E3DBEC /* RoadManager.swift in Sources */,
 			);
@@ -464,6 +539,7 @@
 		};
 		322AD0C31E6309E200959BE3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AE84BC1CDB272DE6CE974EEA /* Pods-ebikeStory.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -478,6 +554,7 @@
 		};
 		322AD0C41E6309E200959BE3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 27BEF0B6E7887024409EB66A /* Pods-ebikeStory.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";

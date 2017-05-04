@@ -97,7 +97,7 @@ class UartManager: NSObject {
 extension UartManager: CBPeripheralDelegate {
     
     func peripheral(_ peripheral: CBPeripheral, didModifyServices invalidatedServices: [CBService]) {
-        print("UartManager: resetService because didModifyServices")
+        //print("UartManager: resetService because didModifyServices")
         resetService()
     }
     
@@ -106,7 +106,7 @@ extension UartManager: CBPeripheralDelegate {
             return
         }
         if uartService == nil {
-            print("Uart: discover Characteristics")
+            //print("Uart: discover Characteristics")
             if let services = peripheral.services {
                 var found = false
                 var i = 0
@@ -154,7 +154,7 @@ extension UartManager: CBPeripheralDelegate {
                 
                 // Send notification that uart is ready
                 NotificationCenter.default.post(name: Notification.Name(rawValue: UartNotifications.DidBecomeReady.rawValue), object: nil, userInfo:nil)
-                print("UartManager discovered characteristics for service")
+                //print("UartManager discovered characteristics for service")
             }
         }
     }
@@ -179,7 +179,7 @@ extension UartManager: CBPeripheralDelegate {
         if let error = error {
             print("didUpdateNotificationStateForcharacteristic \(characteristic.uuid) error = \(error)")
         }else {
-            print("didUpadateNotificationForcharacteristic successfully")
+            //print("didUpadateNotificationForcharacteristic successfully")
         }
     }
     

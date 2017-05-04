@@ -14,6 +14,7 @@ class PeripheralsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        didUpdateBleState(notification: nil)
         //Setup table refresh
         self.refreshControl?.addTarget(self, action: #selector(onTableRefresh(sender:)), for: .valueChanged)
         
@@ -27,8 +28,6 @@ class PeripheralsTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        didUpdateBleState(notification: nil)
         
         // Subscribe to Ble Notifications
         NotificationCenter.default.addObserver(self, selector: #selector(didDiscoverPeripheral), name: NSNotification.Name(rawValue: BleManager.BleNotifications.DidDiscoverPeripheral.rawValue), object: nil)
@@ -60,90 +59,112 @@ class PeripheralsTableViewController: UITableViewController {
     }
     
     func didDiscoverPeripheral(notification: Notification) {
-        guard let userInfo = notification.userInfo, let identifierString = userInfo["uuid"] as? String else {
-            return
+        DispatchQueue.main.async { [unowned self] in
+            guard let userInfo = notification.userInfo, let identifierString = userInfo["uuid"] as? String else {
+                return
+            }
+            
+            if (self.visiblePeripherals.contains(identifierString)) {
+                return
+            } else {
+                self.visiblePeripherals.append(identifierString)
+            }
+            self.tableView.reloadData()
         }
-        if visiblePeripherals.contains(identifierString) {
-            return
-        } else {
-            visiblePeripherals.append(identifierString)
-        }
-        tableView.reloadData()
     }
     
     func willConnectToPeripheral(notification: Notification) {
-        let alert = UIAlertController(title: "Notification", message: "Connecting...", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: {(_) -> Void in
-        if let peripheral = BleManager.sharedInstance.blePeripheralConnected {
-            BleManager.sharedInstance.disconnect(blePeripheral: peripheral)
+        
+        DispatchQueue.main.async { [unowned self] in
+            let alert = UIAlertController(title: "Notification", message: "Connecting...", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: {(_) -> Void in
+                if let peripheral = BleManager.sharedInstance.blePeripheralConnected {
+                    BleManager.sharedInstance.disconnect(blePeripheral: peripheral)
+                }
+            }))
+            self.present(alert, animated: true, completion: nil)
         }
-        }))
-        present(alert, animated: true, completion: nil)
     }
     
     func didConnectToPeripheral(notification: Notification) {
-        if presentedViewController != nil {
-            dismiss(animated: true, completion: { [unowned self](_) -> Void in
-                let ConnectedPeripheralViewController = self.storyboard?.instantiateViewController(withIdentifier: "ConnectedPeripheralViewController") as! ConnectedPeripheralViewController
-                ConnectedPeripheralViewController.selectedPeripheral = BleManager.sharedInstance.blePeripheralConnected
-                BleManager.sharedInstance.stopScan()
-                self.navigationController?.pushViewController(ConnectedPeripheralViewController, animated: true)
-            })
-        } else {
-            let ConnectedPeripheralViewController = storyboard?.instantiateViewController(withIdentifier: "ConnectedPeripheralViewController") as! ConnectedPeripheralViewController
-            ConnectedPeripheralViewController.selectedPeripheral = BleManager.sharedInstance.blePeripheralConnected
+        
+        DispatchQueue.main.async { [unowned self] in
+            // Dismiss current dialog
+            if self.presentedViewController != nil {
+                self.dismiss(animated: true, completion: { [unowned self](_) -> Void in
+                    self.pushToNextView()
+                })
+            }
+            else {
+                self.pushToNextView()
+            }
+        }
+    }
+    
+    func pushToNextView() {
+        if BleManager.sharedInstance.blePeripheralConnected!.name == "Adafruit Bluefruit LE" {
             BleManager.sharedInstance.stopScan()
-            navigationController?.pushViewController(ConnectedPeripheralViewController, animated: true)
+            let LocationViewController = self.storyboard?.instantiateViewController(withIdentifier: "LocationViewController") as! LocationViewController
+            self.navigationController?.pushViewController(LocationViewController, animated: true)
+        }
+        else {
+            BleManager.sharedInstance.stopScan()
+            let ConnectedPeripheralViewController = self.storyboard?.instantiateViewController(withIdentifier: "ConnectedPeripheralViewController") as! ConnectedPeripheralViewController
+            ConnectedPeripheralViewController.selectedPeripheral = BleManager.sharedInstance.blePeripheralConnected
+            self.navigationController?.pushViewController(ConnectedPeripheralViewController, animated: true)
         }
     }
     
     func didDisconnectFromPeripheral(notification: Notification) {
-        guard let userInfo = notification.userInfo, let identifierString = userInfo["uuid"] as? String else {
-            return
+        DispatchQueue.main.async { [unowned self] in
+            guard let userInfo = notification.userInfo, let identifierString = userInfo["uuid"] as? String else {
+                return
+            }
+            let bleManager = BleManager.sharedInstance
+            let blePeripheralsFound = bleManager.blePeripheralsFound
+            var peripheralName: String? = " "
+            if let blePeripheralFound = blePeripheralsFound[identifierString] {
+                peripheralName = blePeripheralFound.name ?? "a peripheral"
+            }
+            
+            if let selectedIndexPath = self.tableView.indexPathForSelectedRow {
+                self.tableView.deselectRow(at: selectedIndexPath, animated: true)
+            }
+            
+            let alert = UIAlertController(title: "Notification", message: "disconnect from \(String(describing: peripheralName))", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            self.tableView.reloadData()
         }
-        let bleManager = BleManager.sharedInstance
-        let blePeripheralsFound = bleManager.blePeripheralsFound
-        var peripheralName: String? = " "
-        if let blePeripheralFound = blePeripheralsFound[identifierString] {
-            peripheralName = blePeripheralFound.name ?? "a peripheral"
-        }
-        
-        if let selectedIndexPath = tableView.indexPathForSelectedRow {
-            tableView.deselectRow(at: selectedIndexPath, animated: true)
-        }
-        
-        let alert = UIAlertController(title: "Notification", message: "disconnect from \(peripheralName)", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-        present(alert, animated: true, completion: nil)
-        tableView.reloadData()
     }
     
     func didUpdateBleState(notification: Notification?) {
-        guard let state = BleManager.sharedInstance.centralManager?.state else {
-            return
-        }
-        
-        // Check if there is any error
-        var errorMessage: String?
-        switch state {
-        case .unsupported:
-            errorMessage = "This device doesn't support Bluetooth Low Energy"
-        case .unauthorized:
-            errorMessage = "This app is not authorized to use the Bluetooth Low Energy"
-        case .poweredOff:
-            errorMessage = "Bluetooth is currently powered off"
-        default:
-            errorMessage = nil
-        }
-        if let errorMessage = errorMessage {
-            let alert = UIAlertController(title: "Notification", message: errorMessage, preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-            present(alert, animated: true, completion: nil)
-        }
+            guard let state = BleManager.sharedInstance.centralManager?.state else {
+                return
+            }
+            
+            // Check if there is any error
+            var errorMessage: String?
+            switch state {
+            case .unsupported:
+                errorMessage = "This device doesn't support Bluetooth Low Energy"
+            case .unauthorized:
+                errorMessage = "This app is not authorized to use the Bluetooth Low Energy"
+            case .poweredOff:
+                errorMessage = "Bluetooth is currently powered off"
+            default:
+                errorMessage = nil
+            }
+            if let errorMessage = errorMessage {
+                let alert = UIAlertController(title: "Notification", message: errorMessage, preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return visiblePeripherals.count
+        let numOfTableItems = visiblePeripherals.count
+        return numOfTableItems
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -163,12 +184,16 @@ class PeripheralsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let bleManager = BleManager.sharedInstance
         let blePeripheralsFound = bleManager.blePeripherals()
+        let row = indexPath.row
         
-        if let selectedPeripheral = blePeripheralsFound[visiblePeripherals[indexPath.row]] {
-            if selectedPeripheral.connectable == "Yes" {
-                bleManager.blePeripheralConnected = selectedPeripheral
-                bleManager.connect(blePeripheral: bleManager.blePeripheralConnected!)
+        synchronize(lock: visiblePeripherals as AnyObject) { [weak weakSelf = self] in
+            if let selectedPeripheral = blePeripheralsFound[(weakSelf?.visiblePeripherals[row])!] {
+                if selectedPeripheral.connectable == "Yes" {
+                    bleManager.blePeripheralConnected = selectedPeripheral
+                    bleManager.connect(blePeripheral: bleManager.blePeripheralConnected!)
+                }
             }
         }
+        
     }
 }

@@ -16,9 +16,6 @@ class ConnectedPeripheralViewController: UIViewController, CBPeripheralDelegate,
     @IBOutlet weak var UUIDLabel: UILabel!
     @IBOutlet weak var RSSILabel: UILabel!
     
-    @IBAction func startButton(_ sender: Any) {
-        
-    }
     
     @IBOutlet weak var baseTableView: UITableView!
     
@@ -28,7 +25,6 @@ class ConnectedPeripheralViewController: UIViewController, CBPeripheralDelegate,
         
         super.viewDidLoad()
         baseTableView.dataSource = self
-        //startButton.isHidden = true
         
         self.navigationItem.title = "Info"
 
@@ -42,7 +38,7 @@ class ConnectedPeripheralViewController: UIViewController, CBPeripheralDelegate,
         UUIDLabel.text = selectedPeripheral.peripheral.identifier.uuidString
         RSSILabel.text = String(selectedPeripheral.RSSI)
         
-        //selectedPeripheral.peripheral.delegate = self
+        selectedPeripheral.peripheral.delegate = self
         selectedPeripheral.peripheral.readRSSI()
         selectedPeripheral.peripheral.discoverServices(nil)
     }
@@ -53,24 +49,15 @@ class ConnectedPeripheralViewController: UIViewController, CBPeripheralDelegate,
     }
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
-        if let error = error {
-            print(error)
-        }
-        else {
-            /*
-            print("\(peripheral.services)!")
-            if let services = selectedPeripheral.peripheral.services {
-                for service in services {
-                    if service.uuid.uuidString .caseInsensitiveCompare(ConnectedPeripheralViewController.UartServiceUUID) == .orderedSame {
-                        //startButton.isHidden = false
-                        //startButton.isEnabled = true
-                    }
-                }
-            }*/
-            baseTableView.reloadData()
+        DispatchQueue.main.async { [unowned self] in
+            if let error = error {
+                print(error)
+            }
+            else {
+                self.baseTableView.reloadData()
+            }
         }
     }
-    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return selectedPeripheral.peripheral.services?.count ?? 0

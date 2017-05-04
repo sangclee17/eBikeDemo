@@ -9,11 +9,13 @@
 import Foundation
 import CoreGraphics
 import CoreLocation
+import simd
 
 class RoadManager: NSObject {
     
-    final let MIN_SPEED = 2.0 // unit m/s
-    final let MAX_DISTANCE_FROM_PATH = 200.0 // unit meter
+    final let MIN_SPEED = 1.5 // unit m/s
+    final let MAX_DISTANCE_FROM_PATH = 70.0 // unit meter
+    final let INITIAL_DISTANCE_FROM_PATH = 1000.0
     final let INITIAL_NOTIFICATION_RANGE = 40.0...60.0
     final let SECOND_NOTIFICATION_RANGE = 10.0...30.0
     
@@ -23,23 +25,24 @@ class RoadManager: NSObject {
 
 
     var checkPoints = [CLLocationCoordinate2D]()
+    
+    static let sharedInstance = RoadManager()
+    var directionLabel : String = ""
 
     override init() {
         super.init()
-        //UartManager.sharedInstance.blePeripheral = BleManager.sharedInstance.blePeripheralConnected
+        UartManager.sharedInstance.blePeripheral = BleManager.sharedInstance.blePeripheralConnected
     }
     
     func printPath() {
         for ad in checkPoints {
-            print(ad.latitude)
+            print(ad.latitude, ad.longitude)
         }
     }
     
     func traceUserLocation (location : CLLocation) {
-        
-        var MinDistanceFromPath = 5000.00 // unit meter
+        var MinDistanceFromPath = INITIAL_DISTANCE_FROM_PATH // unit meter
         let userCoordinate = location.coordinate
-        
         for i in 0..<checkPoints.count {
             let newDistance = self.distance(from: userCoordinate, to: checkPoints[i])
             if newDistance < MinDistanceFromPath {
@@ -47,26 +50,57 @@ class RoadManager: NSObject {
                 prevPoint = checkPoints[max(i-1,0)]
                 pointWithMinDistance = checkPoints[i]
                 nextPoint = checkPoints[min(i+1,checkPoints.count - 1)]
+                
             }
         }
-        
-        let distanceToCheckPoint = distance(from: userCoordinate, to: pointWithMinDistance!)
-        let turnDirection = bearingFromLocation(fromLocation: userCoordinate, toLocation: nextPoint!)
-        let headingToCheckPoint = checkHeadingToCheckPoint(point: userCoordinate, toLineSegment: prevPoint!, and: pointWithMinDistance!)
-        
-        if INITIAL_NOTIFICATION_RANGE ~= distanceToCheckPoint && headingToCheckPoint && location.speed > MIN_SPEED {
-            print(turnDirection)
-        }
-        else if SECOND_NOTIFICATION_RANGE ~= distanceToCheckPoint && headingToCheckPoint && location.speed > MIN_SPEED {
-            print(turnDirection)
-        }
-        
-        if MinDistanceFromPath > MAX_DISTANCE_FROM_PATH {
-            let OnLineSegmentBetweenPrevPointAndPointWithMinDistance = lineSegmentDistanceFromAPoint(point: userCoordinate, toLineSegment: prevPoint!, and: pointWithMinDistance!)
-            let OnLineSegmentBetweenPointWithMinDistanceAndNextPoint = lineSegmentDistanceFromAPoint(point: userCoordinate, toLineSegment: pointWithMinDistance!, and: nextPoint!)
-            MinDistanceFromPath = Double(min(min(OnLineSegmentBetweenPrevPointAndPointWithMinDistance, OnLineSegmentBetweenPointWithMinDistanceAndNextPoint),CGFloat(MinDistanceFromPath)))
-            if MinDistanceFromPath > MAX_DISTANCE_FROM_PATH {
-                print("user's off the path. recalculating path....")
+        if let pointWithMinDistance = pointWithMinDistance, let prevPoint = prevPoint, let nextPoint = nextPoint {
+            let distanceToCheckPoint = distance(from: userCoordinate, to: pointWithMinDistance)
+            let turnDirection = getTurnDirection(prev: prevPoint, current: pointWithMinDistance, next: nextPoint)
+            let headingToCheckPoint = checkHeadingToCheckPoint(point: userCoordinate, toLineSegment: prevPoint, and: pointWithMinDistance)
+            
+            if INITIAL_NOTIFICATION_RANGE ~= distanceToCheckPoint && headingToCheckPoint && location.speed > MIN_SPEED {
+                self.directionLabel = (turnDirection.appending("\(distanceToCheckPoint)"))
+                
+                if turnDirection == "RIGHT" {
+                    let bytes:[UInt8] = [82,49,77]
+                    UartManager.sharedInstance.sendData(value: bytes)
+                }
+                else if turnDirection == "LEFT" {
+                    let bytes:[UInt8] = [76,49,77]
+                    UartManager.sharedInstance.sendData(value: bytes)
+                }
+            }
+            else if SECOND_NOTIFICATION_RANGE ~= distanceToCheckPoint && headingToCheckPoint && location.speed > MIN_SPEED {
+                if isEqualCoordinates(coordinate1: pointWithMinDistance, coordinate2: self.checkPoints.last!) {
+                    self.directionLabel = "FINISH!!!"
+                    let bytes:[UInt8] = [70,52,77]
+                    UartManager.sharedInstance.sendData(value: bytes)
+                    return
+                }
+                self.directionLabel = (turnDirection.appending("\(distanceToCheckPoint)"))
+                
+                if turnDirection == "RIGHT" {
+                    let bytes:[UInt8] = [82,51,77]
+                    UartManager.sharedInstance.sendData(value: bytes)
+                }
+                else if turnDirection == "LEFT" {
+                    let bytes:[UInt8] = [76,51,77]
+                    UartManager.sharedInstance.sendData(value: bytes)
+                }
+            }
+            else if MinDistanceFromPath > MAX_DISTANCE_FROM_PATH && location.speed > MIN_SPEED {
+                let OnLineSegmentBetweenPrevPointAndPointWithMinDistance = lineSegmentDistanceFromAPoint(point: userCoordinate, toLineSegment: prevPoint, and: pointWithMinDistance)
+                let OnLineSegmentBetweenPointWithMinDistanceAndNextPoint = lineSegmentDistanceFromAPoint(point: userCoordinate, toLineSegment: pointWithMinDistance, and: nextPoint)
+                MinDistanceFromPath = Double(min(min(OnLineSegmentBetweenPrevPointAndPointWithMinDistance, OnLineSegmentBetweenPointWithMinDistanceAndNextPoint),CGFloat(MinDistanceFromPath)))
+                if MinDistanceFromPath > MAX_DISTANCE_FROM_PATH {
+                    self.directionLabel = "user's off the path. recalculating path...."
+                    let bytes:[UInt8] = [79,53,77]
+                    UartManager.sharedInstance.sendData(value: bytes)
+                }
+            }
+            else {
+                self.directionLabel = "ready"
+                print("ready")
             }
         }
     }
@@ -104,7 +138,7 @@ class RoadManager: NSObject {
         let dx = p.x - int_x
         let dy = p.y - int_y
         
-        return sqrt(dx * dx + dy * dy)
+        return sqrt(dx * dx + dy * dy) * 100000   //unit to meter
     }
     
     func distance(from: CLLocationCoordinate2D, to: CLLocationCoordinate2D) -> CLLocationDistance {
@@ -114,33 +148,28 @@ class RoadManager: NSObject {
     }
     
     func degreesToRadians (value:Double) -> Double {
-        return value * M_PI / 180.0
+        return value * Double.pi / 180.0
     }
     
     func radiansToDegrees (value:Double) -> Double {
-        return value * 180.0 / M_PI
+        return value * 180.0 / Double.pi
     }
     
-    func bearingFromLocation(fromLocation: CLLocationCoordinate2D, toLocation: CLLocationCoordinate2D) -> String {
+    func getTurnDirection (prev: CLLocationCoordinate2D, current: CLLocationCoordinate2D, next: CLLocationCoordinate2D) -> String {
+        let prevToCurrent = vector2(current.longitude - prev.longitude, current.latitude - prev.latitude)
+        let currentToNext = vector2(next.longitude - current.longitude, next.latitude - current.latitude)
+        let lenCurrentToPrev = length(prevToCurrent)
+        let lenCurrentToNext = length(currentToNext)
+        let dotProduct = dot(prevToCurrent, currentToNext)
+        let theta = acos(dotProduct/lenCurrentToPrev/lenCurrentToNext)
+        let theta_Degree = radiansToDegrees(value: theta)
+        let crossProduct = cross(prevToCurrent, currentToNext).z
         
-        var bearing: CLLocationDirection
-        
-        let fromLat = degreesToRadians(value: fromLocation.latitude)
-        let fromLon = degreesToRadians(value: fromLocation.longitude)
-        let toLat = degreesToRadians(value: toLocation.latitude)
-        let toLon = degreesToRadians(value: toLocation.longitude)
-        
-        let y = sin(toLon - fromLon) * cos(toLat)
-        let x = cos(fromLat) * sin(toLat) - sin(fromLat) * cos(toLat) * cos(toLon - fromLon)
-        bearing = radiansToDegrees( value: atan2(y, x) ) as CLLocationDirection
-        
-        bearing = (bearing + 360.0).truncatingRemainder(dividingBy: 360.0)
-        
-        if bearing > 20 && bearing <= 90 {
+        if abs(theta_Degree) > 20 && crossProduct < 0 {
             return "RIGHT"
         }
-        else if bearing >= 270 && bearing < 340 {
-            return "LEFT"
+        else if abs(theta_Degree) > 20 && crossProduct > 0 {
+            return "LEFT" 
         }
         else {
             return "STRAIGHT"
@@ -166,6 +195,10 @@ class RoadManager: NSObject {
             return true
         }
         return false
+    }
+    
+    func isEqualCoordinates(coordinate1 : CLLocationCoordinate2D, coordinate2 : CLLocationCoordinate2D) -> Bool {
+        return (coordinate1.latitude == coordinate2.latitude) && (coordinate1.longitude == coordinate2.longitude)
     }
 }
 

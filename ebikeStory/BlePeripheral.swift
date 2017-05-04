@@ -47,25 +47,10 @@ class BlePeripheral {
     func hasUart() -> Bool {
         var hasUart = false
         if let services = peripheral.services {
-            var i = 0
-            while (!hasUart && i < services.count) {
-                let service = services[i]
-                if (service.uuid.uuidString .caseInsensitiveCompare(BlePeripheral.kUartServiceUUID) == .orderedSame) {
-                    hasUart = true
-                }
-                i += 1
-            }
-        }
-        return hasUart
-    }
-    /*
-    func hasUart() -> Bool {
-        var hasUart = false
-        if let services = peripheral.services {
             hasUart = services.contains(where: { (service : CBService) -> Bool in
                 service.uuid.isEqual(CBUUID(string: BlePeripheral.kUartServiceUUID))
             })
         }
         return hasUart
-    }*/
+    }
 }
