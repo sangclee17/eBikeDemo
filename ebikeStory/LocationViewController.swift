@@ -78,7 +78,7 @@ class LocationViewController: UIViewController, MFMailComposeViewControllerDeleg
         let sendMailAlert = UIAlertController(title: "Email Testing Data Notification", message: "Would you like to receive an email about the location history details of this participant?", preferredStyle: .alert)
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: {(action) -> Void  in
             //clean up
-            print("You've pressed the cancel button")
+            print("pressed the cancel button")
         })
         let ok =  UIAlertAction(title: "OK", style: .default, handler: {[weak weakSelf = self] (action) -> Void in
             //send email and then clean up
