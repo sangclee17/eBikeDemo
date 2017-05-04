@@ -46,6 +46,10 @@ class LocationViewController: UIViewController, MFMailComposeViewControllerDeleg
     }
     
     @IBAction func startPressed(_ sender: Any) {
+        dataManager.userLocation.removeAll(keepingCapacity: false)
+        pathToGo.removeAll(keepingCapacity: false)
+        
+        showRoute()
         startButton.isHidden = true
         mapView.isHidden = false
         stopButton.isHidden = false
@@ -56,8 +60,6 @@ class LocationViewController: UIViewController, MFMailComposeViewControllerDeleg
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        showRoute()
         
         //configure buttons & label
         startButton.isHidden = false
@@ -70,52 +72,51 @@ class LocationViewController: UIViewController, MFMailComposeViewControllerDeleg
     }
     
     @IBAction func stopPressed(_ sender: Any) {
-            let sendMailAlert = UIAlertController(title: "Email Testing Data Notification", message: "Would you like to receive an email about the location history details of this participant?", preferredStyle: .alert)
-            let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: {[weak weakSelf = self] (action) -> Void  in
-                //clean up
-                weakSelf?.locationManager.stopUpdatingLocation()
-                weakSelf?.freeData()
-            })
-            let ok =  UIAlertAction(title: "OK", style: .default, handler: {[weak weakSelf = self] (action) -> Void in
-                //send email and then clean up
-                weakSelf?.locationManager.stopUpdatingLocation()
-                weakSelf?.sendFileToMail()
-                weakSelf?.freeData()
-            })
-            sendMailAlert.addAction((ok))
-            sendMailAlert.addAction((cancel))
-            self.present(sendMailAlert, animated: true, completion: nil)
+        locationManager.stopUpdatingLocation()
         locationManager.allowsBackgroundLocationUpdates = false
+        
+        let sendMailAlert = UIAlertController(title: "Email Testing Data Notification", message: "Would you like to receive an email about the location history details of this participant?", preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: {(action) -> Void  in
+            //clean up
+            print("You've pressed the cancel button")
+        })
+        let ok =  UIAlertAction(title: "OK", style: .default, handler: {[weak weakSelf = self] (action) -> Void in
+            //send email and then clean up
+            weakSelf?.sendFileToMail()
+        })
+        sendMailAlert.addAction((ok))
+        sendMailAlert.addAction((cancel))
+        self.present(sendMailAlert, animated: true, completion: nil)
     }
-    
+    /*
     func freeData() {
         dataManager.userLocation.removeAll(keepingCapacity: false)
         pathToGo.removeAll(keepingCapacity: false)
         print("clean now")
-    }
-
+    }*/
+    
     func sendFileToMail() {
         /*
-        //configure activityIndicator
-        let activityIndicator = UIActivityIndicatorView()
-        activityIndicator.center = self.view.center
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.activityIndicatorViewStyle = .gray
-        view.addSubview(activityIndicator)
-        activityIndicator.startAnimating()
-        
-        //create csv file asynchronously
-        DispatchQueue.global(qos: .userInitiated).async { [weak weakSelf = self] in
-            let result = weakSelf?.dataManager.createCSV()
-            DispatchQueue.main.async {
-                if result! {
-                    activityIndicator.stopAnimating()
-                } else {
-                    print("Asynchronously failed!!")
-                }
-            }
-        }
-        */
+         //configure activityIndicator
+         let activityIndicator = UIActivityIndicatorView()
+         activityIndicator.center = self.view.center
+         activityIndicator.hidesWhenStopped = true
+         activityIndicator.activityIndicatorViewStyle = .gray
+         view.addSubview(activityIndicator)
+         activityIndicator.startAnimating()
+         
+         //create csv file asynchronously
+         DispatchQueue.global(qos: .userInitiated).async { [weak weakSelf = self] in
+         let result = weakSelf?.dataManager.createCSV()
+         DispatchQueue.main.async {
+         if result! {
+         activityIndicator.stopAnimating()
+         } else {
+         print("Asynchronously failed!!")
+         }
+         }
+         }
+         */
         dataManager.createCSV()
         
         //send email
@@ -214,9 +215,9 @@ extension LocationViewController : CLLocationManagerDelegate {
         for location in locations {
             let howRecent = location.timestamp.timeIntervalSinceNow
             if abs(howRecent) < 10 && location.horizontalAccuracy < 20 {
-  
+                
                 dataManager.userLocation.append(location)
-                    
+                
                 mqttManager.publishMessage(timeStamp: location.timestamp, Latitude: location.coordinate.latitude, Longitude: location.coordinate.longitude, Speed: location.speed)
                 
                 roadManager.traceUserLocation(location: location)
