@@ -30,8 +30,27 @@ class MqttManager {
     }
     
     func publishMessage(timeStamp: Date, Latitude: Double, Longitude: Double, Speed: Double) {
-        let message = "{\"d\": {\"TimeStamp\": \(timeStamp), \"Latitude\": \(Latitude), \"Longitude\": \(Longitude), \"Speed\": \(Speed)}}"
-        mqtt!.publish("iot-2/evt/text/fmt/json", withString: message, qos: .qos1, retained: true, dup: true)
+        //let message = "{\"d\": {\"TimeStamp\": \(timeStamp), \"Latitude\": \(Latitude), \"Longitude\": \(Longitude), \"Speed\": \(Speed)}}"
+        
+        let jsonObject: NSMutableDictionary = NSMutableDictionary()
+        let json: NSMutableDictionary = NSMutableDictionary()
+        
+        json.setValue("\(Latitude)", forKey: "Latitude")
+        json.setValue("\(Longitude)", forKey: "Longitude")
+        json.setValue("\(timeStamp)", forKey: "TimeStamp")
+        json.setValue("\(Speed)", forKey: "Speed")
+        jsonObject.setValue(json, forKey: "d")
+        
+        do {
+            let data1 =  try JSONSerialization.data(withJSONObject: jsonObject, options: JSONSerialization.WritingOptions.prettyPrinted) // first of all convert json to the data
+            if let convertedString = String(data: data1, encoding: String.Encoding.utf8) // the data will be converted to the string
+            {
+                print(convertedString) // <-- here is ur string
+                mqtt!.publish("iot-2/evt/text/fmt/json", withString: convertedString, qos: .qos1, retained: true, dup: true)
+            }
+        } catch let myJSONError {
+            print(myJSONError)
+        }
     }
 }
 extension MqttManager: CocoaMQTTDelegate {
