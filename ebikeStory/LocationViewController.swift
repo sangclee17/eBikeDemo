@@ -11,26 +11,27 @@ import CoreLocation
 import MapKit
 import MessageUI
 
-class LocationViewController: UIViewController, MFMailComposeViewControllerDelegate {
+class LocationViewController: UIViewController {
     
     fileprivate let CLManager = CLLocationManager()
     
     var pathToGo = [CLLocationCoordinate2D]()
     let pins = PinAnnotation()
     
-    fileprivate let dataManager = DataManager.sharedInstance
-    fileprivate let roadManager = RoadManager.sharedInstance
-    fileprivate let mqttManager = MqttManager.sharedInstance
+    fileprivate let dataManager = DataManager()
+    fileprivate let roadManager = RoadManager()
+    fileprivate let mqttManager = MqttManager()
     
     lazy var locationManager: CLLocationManager = {
+        [unowned self] in
         var location_manager = CLLocationManager()
         location_manager.delegate = self
         location_manager.desiredAccuracy = kCLLocationAccuracyBest
         location_manager.requestAlwaysAuthorization()
         location_manager.allowsBackgroundLocationUpdates = true
-        location_manager.pausesLocationUpdatesAutomatically = true
+        //location_manager.pausesLocationUpdatesAutomatically = true
         // Movement threshold for new events
-        location_manager.distanceFilter = 10.0
+        location_manager.distanceFilter = 10
         return location_manager
     }()
     
@@ -43,6 +44,22 @@ class LocationViewController: UIViewController, MFMailComposeViewControllerDeleg
             mapView.delegate = self
             mapView.showsUserLocation = true
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Start Uart Manager
+        UartManager.sharedInstance.blePeripheral = BleManager.sharedInstance.blePeripheralConnected
+        
+        //configure buttons & label
+        startButton.isHidden = false
+        stopButton.isHidden = true
+        label.isHidden = true
+        mapView.isHidden = true
+        
+        //configure mqtt
+        mqttManager.mqttSetting()
     }
     
     @IBAction func startPressed(_ sender: Any) {
@@ -58,31 +75,17 @@ class LocationViewController: UIViewController, MFMailComposeViewControllerDeleg
         startLocationUpdates()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        //configure buttons & label
-        startButton.isHidden = false
-        stopButton.isHidden = true
-        label.isHidden = true
-        mapView.isHidden = true
-        
-        //configure mqtt
-        mqttManager.mqttSetting()
-    }
-    
     @IBAction func stopPressed(_ sender: Any) {
         locationManager.stopUpdatingLocation()
         locationManager.allowsBackgroundLocationUpdates = false
         
         let sendMailAlert = UIAlertController(title: "Email Testing Data Notification", message: "Would you like to receive an email about the location history details of this participant?", preferredStyle: .alert)
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: {(action) -> Void  in
-            //clean up
             print("pressed the cancel button")
         })
-        let ok =  UIAlertAction(title: "OK", style: .default, handler: {[weak weakSelf = self] (action) -> Void in
+        let ok =  UIAlertAction(title: "OK", style: .default, handler: {[unowned self] (action) -> Void in
             //send email and then clean up
-            weakSelf?.sendFileToMail()
+            self.sendFileToMail()
         })
         sendMailAlert.addAction((ok))
         sendMailAlert.addAction((cancel))
@@ -118,11 +121,6 @@ class LocationViewController: UIViewController, MFMailComposeViewControllerDeleg
             print("\(error)")
         }
         return mailComposerVC
-    }
-    
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        dataManager.deleteFile()
-        controller.dismiss(animated: true, completion: nil)
     }
     
     func showSendMailErrorAlert() {
@@ -187,7 +185,7 @@ extension LocationViewController : CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         for location in locations {
             let howRecent = location.timestamp.timeIntervalSinceNow
-            if abs(howRecent) < 10 && location.horizontalAccuracy < 20 {
+            if abs(howRecent)<10 && location.horizontalAccuracy<20 {
                 
                 dataManager.userLocation.append(location)
                 
@@ -215,6 +213,14 @@ extension LocationViewController : MKMapViewDelegate {
             renderer.strokeColor = UIColor.green
         }
         return renderer
+    }
+}
+
+extension LocationViewController : MFMailComposeViewControllerDelegate {
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        dataManager.deleteFile()
+        controller.dismiss(animated: true, completion: nil)
     }
 }
 

@@ -17,8 +17,6 @@ class DataManager {
     let tmpDir = NSTemporaryDirectory()
     let fileName = "ebikeData.csv"
     
-    static let sharedInstance = DataManager()
-    
     func enumerateDirectory() -> String? {
         do {
             let files = try fileManager.contentsOfDirectory(atPath: tmpDir)

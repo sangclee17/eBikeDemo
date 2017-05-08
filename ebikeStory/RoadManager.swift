@@ -14,10 +14,10 @@ import simd
 class RoadManager: NSObject {
     
     final let MIN_SPEED = 1.5 // unit m/s
-    final let MAX_DISTANCE_FROM_PATH = 70.0 // unit meter
+    final let MAX_OFF_THE_PATH = 70.0 // unit meter
     final let INITIAL_DISTANCE_FROM_PATH = 1000.0
-    final let INITIAL_NOTIFICATION_RANGE = 40.0...60.0
-    final let SECOND_NOTIFICATION_RANGE = 10.0...30.0
+    final let INITIAL_NOTIFICATION_RANGE = 50.0...70.0
+    final let SECOND_NOTIFICATION_RANGE = 20.0...40.0
     
     var prevPoint : CLLocationCoordinate2D?
     var pointWithMinDistance : CLLocationCoordinate2D?
@@ -26,12 +26,10 @@ class RoadManager: NSObject {
 
     var checkPoints = [CLLocationCoordinate2D]()
     
-    static let sharedInstance = RoadManager()
     var directionLabel : String = ""
 
     override init() {
         super.init()
-        UartManager.sharedInstance.blePeripheral = BleManager.sharedInstance.blePeripheralConnected
     }
     
     func printPath() {
@@ -50,7 +48,7 @@ class RoadManager: NSObject {
                 prevPoint = checkPoints[max(i-1,0)]
                 pointWithMinDistance = checkPoints[i]
                 nextPoint = checkPoints[min(i+1,checkPoints.count - 1)]
-                
+
             }
         }
         if let pointWithMinDistance = pointWithMinDistance, let prevPoint = prevPoint, let nextPoint = nextPoint {
@@ -88,11 +86,12 @@ class RoadManager: NSObject {
                     UartManager.sharedInstance.sendData(value: bytes)
                 }
             }
-            else if MinDistanceFromPath > MAX_DISTANCE_FROM_PATH && location.speed > MIN_SPEED {
+            else if MinDistanceFromPath > MAX_OFF_THE_PATH && location.speed > MIN_SPEED {
                 let OnLineSegmentBetweenPrevPointAndPointWithMinDistance = lineSegmentDistanceFromAPoint(point: userCoordinate, toLineSegment: prevPoint, and: pointWithMinDistance)
                 let OnLineSegmentBetweenPointWithMinDistanceAndNextPoint = lineSegmentDistanceFromAPoint(point: userCoordinate, toLineSegment: pointWithMinDistance, and: nextPoint)
                 MinDistanceFromPath = Double(min(min(OnLineSegmentBetweenPrevPointAndPointWithMinDistance, OnLineSegmentBetweenPointWithMinDistanceAndNextPoint),CGFloat(MinDistanceFromPath)))
-                if MinDistanceFromPath > MAX_DISTANCE_FROM_PATH {
+                
+                if MinDistanceFromPath > MAX_OFF_THE_PATH {
                     self.directionLabel = "user's off the path. recalculating path...."
                     let bytes:[UInt8] = [79,53,77]
                     UartManager.sharedInstance.sendData(value: bytes)
@@ -100,7 +99,6 @@ class RoadManager: NSObject {
             }
             else {
                 self.directionLabel = "ready"
-                print("ready")
             }
         }
     }

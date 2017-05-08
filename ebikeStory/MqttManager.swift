@@ -11,8 +11,6 @@ import CocoaMQTT
 
 class MqttManager {
     
-    static let sharedInstance = MqttManager()
-    
     var mqtt: CocoaMQTT?
     
     func mqttSetting() {

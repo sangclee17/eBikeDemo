@@ -164,7 +164,6 @@ class BleManager : NSObject, CBCentralManagerDelegate {
         synchronize(lock: blePeripheralsFound as AnyObject) { [unowned self] in
             result = self.blePeripheralsFound
         }
-        //print(result!)
         return result!
     }
 }

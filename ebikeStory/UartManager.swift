@@ -31,7 +31,6 @@ class UartManager: NSObject {
     var uartService: CBService?
     fileprivate var rxCharacteristic: CBCharacteristic?
     fileprivate var txCharacteristic: CBCharacteristic?
-    //fileprivate var txWriteType = CBCharacteristicWriteType.withResponse
     
     var blePeripheral: BlePeripheral? {
         didSet {
@@ -69,16 +68,6 @@ class UartManager: NSObject {
         rxCharacteristic = nil
         txCharacteristic = nil
     }
-    
-     // Send
-     /*let data0 = 0xe0 + UInt8(pin.digitalPinId)
-     let data1 = UInt8(value & 0x7f)         //only 7 bottom bits
-     let data2 = UInt8(value >> 7)           //top bit in second byte
-     
-     let bytes:[UInt8] = [data0, data1, data2]
-     let data = Data(bytes: UnsafePointer<UInt8>(bytes), count: bytes.count)
-     UartManager.sharedInstance.sendData(data)
-    */
     
     func sendData(value: [UInt8]) {
         if let txCharacteristic = txCharacteristic, let blePeripheral = blePeripheral {
