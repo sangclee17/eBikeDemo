@@ -10,7 +10,7 @@ import Foundation
 import CoreLocation
 
 class DataManager {
-
+    
     var userLocation = [CLLocation]()
     
     var fileManager = FileManager.default

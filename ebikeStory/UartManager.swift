@@ -62,7 +62,7 @@ class UartManager: NSObject {
         blePeripheral = nil
         //resetService()
     }
- 
+    
     fileprivate func resetService() {
         uartService = nil
         rxCharacteristic = nil
@@ -128,7 +128,7 @@ extension UartManager: CBPeripheralDelegate {
                         if characteristic.uuid.uuidString .caseInsensitiveCompare(UartManager.TxCharacteristicUUID) == .orderedSame {
                             txCharacteristic = characteristic
                         }
-                        //Rx
+                            //Rx
                         else if characteristic.uuid.uuidString .caseInsensitiveCompare(UartManager.RxCharacteristicUUID) == .orderedSame {
                             rxCharacteristic = characteristic
                         }

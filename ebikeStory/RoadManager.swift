@@ -35,8 +35,8 @@ class RoadManager {
     var prevPoint : CLLocationCoordinate2D?
     var pointWithMinDistance : CLLocationCoordinate2D?
     var nextPoint : CLLocationCoordinate2D?
-
-
+    
+    
     var checkPoints = [CLLocationCoordinate2D]()
     
     var directionLabel : String = ""
@@ -57,7 +57,7 @@ class RoadManager {
                 prevPoint = checkPoints[max(i-1,0)]
                 pointWithMinDistance = checkPoints[i]
                 nextPoint = checkPoints[min(i+1,checkPoints.count - 1)]
-
+                
             }
         }
         if let pointWithMinDistance = pointWithMinDistance, let prevPoint = prevPoint, let nextPoint = nextPoint {
@@ -176,7 +176,7 @@ class RoadManager {
             return "RIGHT"
         }
         else if theta_Degree > MINIMUM_DEGREE_THRESHOLD && crossProduct > 0 {
-            return "LEFT" 
+            return "LEFT"
         }
         else {
             return "STRAIGHT"

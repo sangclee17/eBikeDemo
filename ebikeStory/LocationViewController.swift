@@ -30,7 +30,7 @@ class LocationViewController: UIViewController {
         // Movement threshold for new events
         location_manager.distanceFilter = 10
         return location_manager
-    }()
+        }()
     
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var stopButton: UIButton!

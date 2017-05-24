@@ -25,7 +25,7 @@ class ConnectedPeripheralViewController: UIViewController, CBPeripheralDelegate,
         baseTableView.dataSource = self
         
         self.navigationItem.title = "Info"
-
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -78,6 +78,6 @@ class ConnectedPeripheralViewController: UIViewController, CBPeripheralDelegate,
         
         return cell
     }
- 
+    
 }
 

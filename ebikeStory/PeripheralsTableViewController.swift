@@ -139,27 +139,27 @@ class PeripheralsTableViewController: UITableViewController {
     }
     
     func didUpdateBleState(notification: Notification?) {
-            guard let state = BleManager.sharedInstance.centralManager?.state else {
-                return
-            }
-            
-            // Check if there is any error
-            var errorMessage: String?
-            switch state {
-            case .unsupported:
-                errorMessage = "This device doesn't support Bluetooth Low Energy"
-            case .unauthorized:
-                errorMessage = "This app is not authorized to use the Bluetooth Low Energy"
-            case .poweredOff:
-                errorMessage = "Bluetooth is currently powered off"
-            default:
-                errorMessage = nil
-            }
-            if let errorMessage = errorMessage {
-                let alert = UIAlertController(title: "Notification", message: errorMessage, preferredStyle: UIAlertControllerStyle.alert)
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
-            }
+        guard let state = BleManager.sharedInstance.centralManager?.state else {
+            return
+        }
+        
+        // Check if there is any error
+        var errorMessage: String?
+        switch state {
+        case .unsupported:
+            errorMessage = "This device doesn't support Bluetooth Low Energy"
+        case .unauthorized:
+            errorMessage = "This app is not authorized to use the Bluetooth Low Energy"
+        case .poweredOff:
+            errorMessage = "Bluetooth is currently powered off"
+        default:
+            errorMessage = nil
+        }
+        if let errorMessage = errorMessage {
+            let alert = UIAlertController(title: "Notification", message: errorMessage, preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

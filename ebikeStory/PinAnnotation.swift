@@ -9,7 +9,7 @@
 import Foundation
 
 class PinAnnotation: NSObject {
-
+    
     struct Location {
         let title: String
         let latitude: Double
@@ -30,6 +30,6 @@ class PinAnnotation: NSObject {
         Location(title: "checkPoint11", latitude : -37.803083, longitude : 144.969399),
         Location(title: "checkPoint12", latitude : -37.801133, longitude : 144.969812),
         Location(title: "checkPoint13",latitude : -37.80062, longitude: 144.96593),
-    ]
+        ]
     
 }

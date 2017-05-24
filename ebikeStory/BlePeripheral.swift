@@ -37,7 +37,7 @@ class BlePeripheral {
     func isUartAdvertised() -> Bool {
         
         var isUartAdvertised = false
-
+        
         if let serviceUUIds = advertisementData[CBAdvertisementDataServiceUUIDsKey] as? [CBUUID] {
             isUartAdvertised = serviceUUIds.contains(CBUUID(string: BlePeripheral.kUartServiceUUID))
         }

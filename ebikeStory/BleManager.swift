@@ -54,7 +54,7 @@ class BleManager : NSObject, CBCentralManagerDelegate {
         scanTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(self.stopScan), userInfo: nil, repeats: false)
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: BleNotifications.DidStartScanning.rawValue), object: nil)
     }
-
+    
     
     func stopScan() {
         centralManager?.stopScan()
@@ -105,13 +105,13 @@ class BleManager : NSObject, CBCentralManagerDelegate {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: BleNotifications.DidUpdateBleState.rawValue), object: nil)
     }
     /*
-    func timeoutPeripheralConnectionAttempt() {
-        print("Peripheral connection attempt timed out.")
-        if let connectedPeripheral = blePeripheralConnected {
-            disconnect(blePeripheral: connectedPeripheral)
-        }
-        connectionAttemptTimer?.invalidate()
-    }*/
+     func timeoutPeripheralConnectionAttempt() {
+     print("Peripheral connection attempt timed out.")
+     if let connectedPeripheral = blePeripheralConnected {
+     disconnect(blePeripheral: connectedPeripheral)
+     }
+     connectionAttemptTimer?.invalidate()
+     }*/
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         let identifierString = peripheral.identifier.uuidString
