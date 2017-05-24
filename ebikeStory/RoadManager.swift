@@ -11,13 +11,26 @@ import CoreGraphics
 import CoreLocation
 import simd
 
-class RoadManager: NSObject {
+class RoadManager {
     
     final let MIN_SPEED = 1.5 // unit m/s
     final let MAX_OFF_THE_PATH = 70.0 // unit meter
-    final let INITIAL_DISTANCE_FROM_PATH = 1000.0
-    final let INITIAL_NOTIFICATION_RANGE = 50.0...70.0
-    final let SECOND_NOTIFICATION_RANGE = 20.0...40.0
+    final let INITIAL_DISTANCE_FROM_PATH = 300.0 // unit meter
+    final let INITIAL_NOTIFICATION_RANGE = 50.0...70.0 // unit meter
+    final let SECOND_NOTIFICATION_RANGE = 20.0...40.0 // unit meter
+    final let MINIMUM_DEGREE_THRESHOLD = 20.0
+    final let L = UInt8(76)
+    final let R = UInt8(82)
+    final let F = UInt8(70)
+    final let O = UInt8(79)
+    final let LED_OFF = UInt8(78)
+    final let LED_ON = UInt8(89)
+    final let INCOMING_TURN = UInt8(49)
+    final let TURN_NOW = UInt8(51)
+    final let REACH_DESTINATION = UInt8(52)
+    final let OFF_TRACK = UInt8(53)
+    
+    
     
     var prevPoint : CLLocationCoordinate2D?
     var pointWithMinDistance : CLLocationCoordinate2D?
@@ -27,10 +40,6 @@ class RoadManager: NSObject {
     var checkPoints = [CLLocationCoordinate2D]()
     
     var directionLabel : String = ""
-
-    override init() {
-        super.init()
-    }
     
     func printPath() {
         for ad in checkPoints {
@@ -60,29 +69,29 @@ class RoadManager: NSObject {
                 self.directionLabel = (turnDirection.appending("\(distanceToCheckPoint)"))
                 
                 if turnDirection == "RIGHT" {
-                    let bytes:[UInt8] = [82,49,77]
+                    let bytes:[UInt8] = [R,INCOMING_TURN,LED_OFF]
                     UartManager.sharedInstance.sendData(value: bytes)
                 }
                 else if turnDirection == "LEFT" {
-                    let bytes:[UInt8] = [76,49,77]
+                    let bytes:[UInt8] = [L,INCOMING_TURN,LED_OFF]
                     UartManager.sharedInstance.sendData(value: bytes)
                 }
             }
             else if SECOND_NOTIFICATION_RANGE ~= distanceToCheckPoint && headingToCheckPoint && location.speed > MIN_SPEED {
                 if isEqualCoordinates(coordinate1: pointWithMinDistance, coordinate2: self.checkPoints.last!) {
                     self.directionLabel = "FINISH!!!"
-                    let bytes:[UInt8] = [70,52,77]
+                    let bytes:[UInt8] = [F,REACH_DESTINATION,LED_OFF]
                     UartManager.sharedInstance.sendData(value: bytes)
                     return
                 }
                 self.directionLabel = (turnDirection.appending("\(distanceToCheckPoint)"))
                 
                 if turnDirection == "RIGHT" {
-                    let bytes:[UInt8] = [82,51,77]
+                    let bytes:[UInt8] = [R,TURN_NOW,LED_OFF]
                     UartManager.sharedInstance.sendData(value: bytes)
                 }
                 else if turnDirection == "LEFT" {
-                    let bytes:[UInt8] = [76,51,77]
+                    let bytes:[UInt8] = [L,TURN_NOW,LED_OFF]
                     UartManager.sharedInstance.sendData(value: bytes)
                 }
             }
@@ -93,7 +102,7 @@ class RoadManager: NSObject {
                 
                 if MinDistanceFromPath > MAX_OFF_THE_PATH {
                     self.directionLabel = "user's off the path. recalculating path...."
-                    let bytes:[UInt8] = [79,53,77]
+                    let bytes:[UInt8] = [O,OFF_TRACK,LED_OFF]
                     UartManager.sharedInstance.sendData(value: bytes)
                 }
             }
@@ -163,10 +172,10 @@ class RoadManager: NSObject {
         let theta_Degree = radiansToDegrees(value: theta)
         let crossProduct = cross(prevToCurrent, currentToNext).z
         
-        if abs(theta_Degree) > 20 && crossProduct < 0 {
+        if theta_Degree > MINIMUM_DEGREE_THRESHOLD && crossProduct < 0 {
             return "RIGHT"
         }
-        else if abs(theta_Degree) > 20 && crossProduct > 0 {
+        else if theta_Degree > MINIMUM_DEGREE_THRESHOLD && crossProduct > 0 {
             return "LEFT" 
         }
         else {

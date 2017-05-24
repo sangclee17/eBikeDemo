@@ -28,7 +28,6 @@ class MqttManager {
     }
     
     func publishMessage(timeStamp: Date, Latitude: Double, Longitude: Double, Speed: Double) {
-        //let message = "{\"d\": {\"TimeStamp\": \(timeStamp), \"Latitude\": \(Latitude), \"Longitude\": \(Longitude), \"Speed\": \(Speed)}}"
         
         let jsonObject: NSMutableDictionary = NSMutableDictionary()
         let json: NSMutableDictionary = NSMutableDictionary()

@@ -15,8 +15,6 @@ class ConnectedPeripheralViewController: UIViewController, CBPeripheralDelegate,
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var UUIDLabel: UILabel!
     @IBOutlet weak var RSSILabel: UILabel!
-    
-    
     @IBOutlet weak var baseTableView: UITableView!
     
     var selectedPeripheral: BlePeripheral!
@@ -35,8 +33,8 @@ class ConnectedPeripheralViewController: UIViewController, CBPeripheralDelegate,
         
         nameLabel.text = selectedPeripheral.name ?? "No Name"
         UUIDLabel.numberOfLines = 0;
-        UUIDLabel.text = selectedPeripheral.peripheral.identifier.uuidString
-        RSSILabel.text = String(selectedPeripheral.RSSI)
+        UUIDLabel.text = "UUID: \(selectedPeripheral.peripheral.identifier.uuidString)"
+        RSSILabel.text = "RSSI: \(String(selectedPeripheral.RSSI))"
         
         selectedPeripheral.peripheral.delegate = self
         selectedPeripheral.peripheral.readRSSI()
@@ -57,6 +55,10 @@ class ConnectedPeripheralViewController: UIViewController, CBPeripheralDelegate,
                 self.baseTableView.reloadData()
             }
         }
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "List of BLE Services"
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -17,7 +17,7 @@ class PeripheralTableViewCell: UITableViewCell {
     
     func setupWithPeripheral(peripheral: BlePeripheral) {
         
-        nameLabel.text = peripheral.name
+        nameLabel.text = "NAME: \(String(describing: peripheral.name!))"
         RSSILabel.text = "RSSI: \(peripheral.RSSI)"
         connectableLabel.text = "Connectable: \(peripheral.connectable!)"
     }

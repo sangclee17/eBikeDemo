@@ -13,11 +13,8 @@ import MessageUI
 
 class LocationViewController: UIViewController {
     
-    fileprivate let CLManager = CLLocationManager()
-    
     var pathToGo = [CLLocationCoordinate2D]()
     let pins = PinAnnotation()
-    
     fileprivate let dataManager = DataManager()
     fileprivate let roadManager = RoadManager()
     fileprivate let mqttManager = MqttManager()
@@ -44,22 +41,6 @@ class LocationViewController: UIViewController {
             mapView.delegate = self
             mapView.showsUserLocation = true
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        // Start Uart Manager
-        UartManager.sharedInstance.blePeripheral = BleManager.sharedInstance.blePeripheralConnected
-        
-        //configure buttons & label
-        startButton.isHidden = false
-        stopButton.isHidden = true
-        label.isHidden = true
-        mapView.isHidden = true
-        
-        //configure mqtt
-        mqttManager.mqttSetting()
     }
     
     @IBAction func startPressed(_ sender: Any) {
@@ -90,6 +71,22 @@ class LocationViewController: UIViewController {
         sendMailAlert.addAction((ok))
         sendMailAlert.addAction((cancel))
         self.present(sendMailAlert, animated: true, completion: nil)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Start Uart Manager
+        UartManager.sharedInstance.blePeripheral = BleManager.sharedInstance.blePeripheralConnected
+        
+        //configure buttons & label
+        startButton.isHidden = false
+        stopButton.isHidden = true
+        label.isHidden = true
+        mapView.isHidden = true
+        
+        //configure mqtt
+        mqttManager.mqttSetting()
     }
     
     func sendFileToMail() {
